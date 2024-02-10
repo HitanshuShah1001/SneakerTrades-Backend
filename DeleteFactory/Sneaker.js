@@ -7,7 +7,6 @@ exports.DeleteSneaker = async (req, res) => {
     const {
       user: { _id: userId },
     } = req;
-    console.log(userId, _id);
     const [sneakerToDelete, userToModify] = await Promise.all([
       Sneaker.findByIdAndDelete({ _id: _id }),
       User.findById({ _id: userId }),
