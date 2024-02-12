@@ -20,7 +20,7 @@ exports.UpdateUserCoins = async (req, res) => {
       user: userToUpdateCoinsFor,
     });
   } catch (e) {
-    console.log(e, `Error occured in updating coins for the user`);
+    Errorhandler(400, res, e.message);
   }
 };
 
@@ -46,6 +46,6 @@ exports.DeductUserCoins = async (req, res) => {
       user: userToUpdateCoinsFor,
     });
   } catch (e) {
-    console.log(e, `Error occured in updating coins for the user`);
+    Errorhandler(400, res, e.message);
   }
 };

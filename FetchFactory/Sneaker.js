@@ -1,17 +1,21 @@
 const Sneaker = require("../models/Sneaker");
 const { StatusSuccess } = require("../constants");
+const Errorhandler = require("../Errorhandler/Errorhandler");
 
 exports.GetAllSneakersUploadedByUser = async (req, res) => {
   try {
     const { _id: ownerId } = req.user;
     const records = await Sneaker.find({ Owner: ownerId });
+    if (records.length == 0) {
+      Errorhandler(404, res, `No records found!`);
+    }
     res.status(200).json({
       ...StatusSuccess,
       data: records,
       count: records.length,
     });
   } catch (e) {
-    console.log(`Error occured`);
+    Errorhandler(400, res, e.message);
   }
 };
 
@@ -28,7 +32,7 @@ exports.GetAllSneakersNotUploadedByUser = async (req, res) => {
       count: records.length,
     });
   } catch (e) {
-    console.log(`Error occured`);
+    Errorhandler(400, res, e.message);
   }
 };
 
@@ -74,7 +78,7 @@ exports.GetSneakerBySearch = async (req, res) => {
     });
     res.status(200).json({ data: results, count: results.length });
   } catch (e) {
-    console.log(`Error occured`);
+    Errorhandler(400, res, e.message);
   }
 };
 
@@ -90,7 +94,7 @@ exports.GetSneakerForPurchase = async (req, res) => {
       count: results.length,
     });
   } catch (e) {
-    console.log(e, "Error occured in purchase");
+    Errorhandler(400, res, e.message);
   }
 };
 
@@ -106,6 +110,6 @@ exports.GetSneakersForBorrowing = async (req, res) => {
       count: results.length,
     });
   } catch (e) {
-    console.log(e, `Error occured in borrowing`);
+    Errorhandler(400, res, e.message);
   }
 };

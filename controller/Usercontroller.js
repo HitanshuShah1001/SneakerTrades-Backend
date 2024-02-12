@@ -1,4 +1,5 @@
 const multer = require("multer");
+const Errorhandler = require("../Errorhandler/Errorhandler");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -14,7 +15,7 @@ const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
-    console.log("Please upload only image");
+    Errorhandler(400, res, `Please Upload Only Image`);
   }
 };
 

@@ -5,12 +5,10 @@ const User = require("../models/User");
 exports.DeleteUser = async (req, res) => {
   try {
     const { _id } = req.user;
-    console.log(_id);
     const userToDelete = await User.findByIdAndDelete({ _id });
     if (!userToDelete) {
       Errorhandler(404, res, `No user found`);
     }
-    console.log(userToDelete);
     res.status(201).json({
       status: `Success`,
       message: `User Deleted Succesfully`,

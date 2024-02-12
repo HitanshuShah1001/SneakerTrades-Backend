@@ -1,3 +1,4 @@
+const Errorhandler = require("../Errorhandler/Errorhandler");
 const Sneaker = require("../models/Sneaker");
 const User = require("../models/User");
 
@@ -8,7 +9,7 @@ exports.UnlockSneaker = async (req, res) => {
     } = req;
     const userToUpdate = await User.findById(userId);
     if (userToUpdate.TotalCoinsLeft < 10) {
-      console.log(`Insufficient balance`);
+      Errorhandler(400, res, `Insufficient balance`);
       return;
     }
     userToUpdate.TotalCoinsSpent += 10;
@@ -19,6 +20,6 @@ exports.UnlockSneaker = async (req, res) => {
       data: userToUpdate,
     });
   } catch (e) {
-    console.log(e, `Error occured in Unlock Sneaker Api call`);
+    Errorhandler(400, res, e.message);
   }
 };

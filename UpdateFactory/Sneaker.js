@@ -1,3 +1,4 @@
+const Errorhandler = require("../Errorhandler/Errorhandler");
 const Sneaker = require("../models/Sneaker");
 const User = require("../models/User");
 
@@ -17,7 +18,7 @@ exports.ChangeSneakerToLent = async (req, res) => {
       status: `Success`,
     });
   } catch (e) {
-    console.log(e, `Error occured`);
+    Errorhandler(400, res, e.message);
   }
 };
 
@@ -37,6 +38,6 @@ exports.ChangeSneakerToSold = async (req, res) => {
       status: `Success`,
     });
   } catch (e) {
-    console.log(e, `Error occured`);
+    Errorhandler(400, res, e.message);
   }
 };
