@@ -1,3 +1,4 @@
+const Errorhandler = require("../Errorhandler/Errorhandler");
 const Sneaker = require("../models/Sneaker");
 const User = require("../models/User");
 
@@ -14,12 +15,14 @@ exports.DeleteSneaker = async (req, res) => {
     const indexOfSneakerToRemove = userToModify.UploadedSneakers.indexOf(_id);
     if (indexOfSneakerToRemove !== -1) {
       userToModify.UploadedSneakers.splice(indexOfSneakerToRemove, 1);
+      await userToModify.save();
+      res.status(201).json({
+        status: `Success`,
+      });
+    } else {
+      Errorhandler(400, res, `Sneaker not found`);
     }
-    await userToModify.save();
-    res.status(201).json({
-      status: `Success`,
-    });
   } catch (e) {
-    console.log(e, "Error occured in sneaker delte");
+    Errorhandler(400, res, e.message);
   }
 };

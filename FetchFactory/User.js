@@ -1,3 +1,4 @@
+const Errorhandler = require("../Errorhandler/Errorhandler");
 const User = require("../models/User");
 
 exports.GetAllUsers = async (req, res) => {
@@ -9,7 +10,7 @@ exports.GetAllUsers = async (req, res) => {
       count: users.length,
     });
   } catch (e) {
-    console.log(e, `Error occured`);
+    Errorhandler(400, res, e.message);
   }
 };
 
@@ -26,7 +27,7 @@ exports.GetIndividualUser = async (req, res) => {
       ...userobj,
     });
   } catch (e) {
-    console.log(e, `Error occured`);
+    Errorhandler(400, res, e.message);
   }
 };
 exports.GetIndividualUserByEmail = async (req, res) => {
@@ -42,6 +43,24 @@ exports.GetIndividualUserByEmail = async (req, res) => {
       ...userobj,
     });
   } catch (e) {
-    console.log(e, `Error occured`);
+    Errorhandler(400, res, e.message);
+  }
+};
+
+exports.FetchTotalUserCoins = async (req, res) => {
+  try {
+    const {
+      user: { _id },
+    } = req;
+    const userToGetCoinsFor = await User.findById({ _id });
+    const userCoins = userToGetCoinsFor.TotalCoinsLeft;
+    const userCoinsSpent = userToGetCoinsFor.TotalCoinsSpent;
+    res.status(200).json({
+      status: `Success`,
+      totalCoinsLeft: userCoins,
+      totalCoinsSpent: userCoinsSpent,
+    });
+  } catch (e) {
+    Errorhandler(400, res, e.message);
   }
 };

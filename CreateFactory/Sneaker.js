@@ -1,10 +1,10 @@
+const Errorhandler = require("../Errorhandler/Errorhandler");
 const Sneaker = require("../models/Sneaker");
 const User = require("../models/User");
 
 exports.UploadSneaker = async (req, res) => {
   try {
     const {
-      user,
       files,
       protocol,
       user: { _id: userId },
@@ -34,6 +34,6 @@ exports.UploadSneaker = async (req, res) => {
       .status(200)
       .json({ status: `Success`, message: `Sneaker Uploaded!`, SneakerRecord });
   } catch (e) {
-    console.log(e, `Error occured`);
+    Errorhandler(400, res, e.message);
   }
 };
