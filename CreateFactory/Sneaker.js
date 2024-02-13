@@ -1,4 +1,5 @@
 const Errorhandler = require("../Errorhandler/Errorhandler");
+const Successhandler = require("../Succeshandler/Succeshandler");
 const Sneaker = require("../models/Sneaker");
 const User = require("../models/User");
 
@@ -30,9 +31,7 @@ exports.UploadSneaker = async (req, res) => {
       userToSaveDetailsFor.SneakersToBeSold.push(_id);
     }
     await userToSaveDetailsFor.save();
-    res
-      .status(200)
-      .json({ status: `Success`, message: `Sneaker Uploaded!`, SneakerRecord });
+    Successhandler(200, res, SneakerRecord, `Sneaker Uploaded!`);
   } catch (e) {
     Errorhandler(400, res, e.message);
   }

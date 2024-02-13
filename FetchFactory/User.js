@@ -10,7 +10,7 @@ exports.GetAllUsers = async (req, res) => {
       count: users.length,
     });
   } catch (e) {
-    Errorhandler(400, res, e.message);
+    return Errorhandler(400, res, e.message);
   }
 };
 
@@ -38,12 +38,12 @@ exports.GetIndividualUserByEmail = async (req, res) => {
       user.length > 0
         ? { status: `Success`, user }
         : { status: `Success`, user: null, message: `User not found!` };
-    return res.status(200).json({
-      status: `Success`,
-      ...userobj,
+
+    return Succeshandler(200, res, {
+      user: userobj,
     });
   } catch (e) {
-    Errorhandler(400, res, e.message);
+    return Errorhandler(400, res, e.message);
   }
 };
 
@@ -55,12 +55,11 @@ exports.FetchTotalUserCoins = async (req, res) => {
     const userToGetCoinsFor = await User.findById({ _id });
     const userCoins = userToGetCoinsFor.TotalCoinsLeft;
     const userCoinsSpent = userToGetCoinsFor.TotalCoinsSpent;
-    res.status(200).json({
-      status: `Success`,
+    return Succeshandler(200, res, {
       totalCoinsLeft: userCoins,
       totalCoinsSpent: userCoinsSpent,
     });
   } catch (e) {
-    Errorhandler(400, res, e.message);
+    return Errorhandler(400, res, e.message);
   }
 };

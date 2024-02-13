@@ -15,7 +15,7 @@ const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
-    Errorhandler(400, res, `Please Upload Only Image`);
+    return Errorhandler(400, res, `Please Upload Only Image`);
   }
 };
 

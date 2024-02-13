@@ -1,5 +1,5 @@
 const Errorhandler = require("../Errorhandler/Errorhandler");
-const Sneaker = require("../models/Sneaker");
+const Succeshandler = require("../Succeshandler/Succeshandler");
 const User = require("../models/User");
 
 exports.UnlockSneaker = async (req, res) => {
@@ -15,8 +15,7 @@ exports.UnlockSneaker = async (req, res) => {
     userToUpdate.TotalCoinsSpent += 10;
     userToUpdate.TotalCoinsLeft -= 10;
     await userToUpdate.save();
-    res.status(200).json({
-      status: `Success`,
+    Succeshandler(200, res, {
       data: userToUpdate,
     });
   } catch (e) {

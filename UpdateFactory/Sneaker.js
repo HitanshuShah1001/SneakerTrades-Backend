@@ -1,4 +1,5 @@
 const Errorhandler = require("../Errorhandler/Errorhandler");
+const Succeshandler = require("../Succeshandler/Succeshandler");
 const Sneaker = require("../models/Sneaker");
 const User = require("../models/User");
 
@@ -14,9 +15,7 @@ exports.ChangeSneakerToLent = async (req, res) => {
     sneaker.Is_Lent = true;
     user.SneakersLent.push(_id);
     await Promise.all([sneaker.save(), user.save()]);
-    return res.status(200).json({
-      status: `Success`,
-    });
+    return Succeshandler(200, res);
   } catch (e) {
     Errorhandler(400, res, e.message);
   }
@@ -33,10 +32,8 @@ exports.ChangeSneakerToSold = async (req, res) => {
     sneaker.To_Show = false;
     sneaker.Is_Bought = true;
     user.SneakersSold.push(_id);
-    await Promise.all([sneaker.save(), user.save()]);
-    return res.status(200).json({
-      status: `Success`,
-    });
+    await Promise.allSettled([sneaker.save(), user.save()]);
+    return Succeshandler(200, res);
   } catch (e) {
     Errorhandler(400, res, e.message);
   }

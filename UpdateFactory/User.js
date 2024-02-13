@@ -1,3 +1,4 @@
+const Succeshandler = require("../Succeshandler/Succeshandler");
 const User = require("../models/User");
 
 exports.UpdateUserCoins = async (req, res) => {
@@ -14,13 +15,14 @@ exports.UpdateUserCoins = async (req, res) => {
       },
       { new: true }
     );
-    res.status(200).json({
-      status: `Success`,
-      message: `User coins updated succesfully`,
-      user: userToUpdateCoinsFor,
-    });
+    return Succeshandler(
+      200,
+      res,
+      { user: userToUpdateCoinsFor },
+      `User coins updated succesfully`
+    );
   } catch (e) {
-    Errorhandler(400, res, e.message);
+    return Errorhandler(400, res, e.message);
   }
 };
 
@@ -40,12 +42,13 @@ exports.DeductUserCoins = async (req, res) => {
       },
       { new: true }
     );
-    res.status(200).json({
-      status: `Success`,
-      message: `User coins updated succesfully`,
-      user: userToUpdateCoinsFor,
-    });
+    return Succeshandler(
+      200,
+      res,
+      { user: userToUpdateCoinsFor },
+      `User coins updated succesfully`
+    );
   } catch (e) {
-    Errorhandler(400, res, e.message);
+    return Errorhandler(400, res, e.message);
   }
 };

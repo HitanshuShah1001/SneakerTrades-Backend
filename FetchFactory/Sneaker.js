@@ -1,21 +1,20 @@
 const Sneaker = require("../models/Sneaker");
-const { StatusSuccess } = require("../constants");
 const Errorhandler = require("../Errorhandler/Errorhandler");
+const Succeshandler = require("../Succeshandler/Succeshandler");
 
 exports.GetAllSneakersUploadedByUser = async (req, res) => {
   try {
     const { _id: ownerId } = req.user;
     const records = await Sneaker.find({ Owner: ownerId });
     if (records.length == 0) {
-      Errorhandler(404, res, `No records found!`);
+      return Errorhandler(404, res, `No records found!`);
     }
-    res.status(200).json({
-      ...StatusSuccess,
+    return Succeshandler(200, res, {
       data: records,
       count: records.length,
     });
   } catch (e) {
-    Errorhandler(400, res, e.message);
+    return Errorhandler(400, res, e.message);
   }
 };
 
@@ -26,13 +25,12 @@ exports.GetAllSneakersNotUploadedByUser = async (req, res) => {
       Owner: { $ne: ownerId },
       To_Show: true,
     });
-    res.status(200).json({
-      ...StatusSuccess,
+    return Succeshandler(200, res, {
       data: records,
       count: records.length,
     });
   } catch (e) {
-    Errorhandler(400, res, e.message);
+    return Errorhandler(400, res, e.message);
   }
 };
 
@@ -61,9 +59,12 @@ exports.GetSneakerByFilter = async (req, res) => {
     // Use Mongoose to search for sneakers that match the filter criteria
     const results = await Sneaker.find(filter);
 
-    res.status(200).json({ data: results, count: results.length });
+    return Succeshandler(200, res, {
+      data: results,
+      count: results.length,
+    });
   } catch (error) {
-    console.error(error);
+    return Errorhandler(400, res, error.message);
   }
 };
 
@@ -76,9 +77,12 @@ exports.GetSneakerBySearch = async (req, res) => {
         { Brand: { $regex: new RegExp(query, "i") } },
       ],
     });
-    res.status(200).json({ data: results, count: results.length });
+    return Succeshandler(200, res, {
+      data: results,
+      count: results.length,
+    });
   } catch (e) {
-    Errorhandler(400, res, e.message);
+    return Errorhandler(400, res, e.message);
   }
 };
 
@@ -89,12 +93,12 @@ exports.GetSneakerForPurchase = async (req, res) => {
       Owner: { $ne: ownerId },
       Type: "sell",
     });
-    res.status(200).json({
+    return Succeshandler(200, res, {
       data: results,
       count: results.length,
     });
   } catch (e) {
-    Errorhandler(400, res, e.message);
+    return Errorhandler(400, res, e.message);
   }
 };
 
@@ -105,11 +109,11 @@ exports.GetSneakersForBorrowing = async (req, res) => {
       Owner: { $ne: ownerId },
       Type: `lend`,
     });
-    res.status(200).json({
+    return Succeshandler(200, res, {
       data: results,
       count: results.length,
     });
   } catch (e) {
-    Errorhandler(400, res, e.message);
+    return Errorhandler(400, res, e.message);
   }
 };
