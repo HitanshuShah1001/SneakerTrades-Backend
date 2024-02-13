@@ -10,7 +10,7 @@ exports.UnlockSneaker = async (req, res) => {
     } = req;
     const userToUpdate = await User.findById(userId);
     if (userToUpdate.TotalCoinsLeft < 10) {
-      return Errorhandler(400, res, `Insufficient balance`);
+      return Errorhandler(403, res, `Insufficient balance`);
     }
     userToUpdate.TotalCoinsSpent += 10;
     userToUpdate.TotalCoinsLeft -= 10;
@@ -19,7 +19,7 @@ exports.UnlockSneaker = async (req, res) => {
       data: userToUpdate,
     });
   } catch (e) {
-    Errorhandler(400, res, e.message);
+    Errorhandler(500, res, e.message);
   }
 };
 
@@ -33,6 +33,6 @@ exports.HideSneaker = async (req, res) => {
     await sneakerToHide.save();
     Succeshandler(200, res);
   } catch (e) {
-    Errorhandler(400, res, e.message);
+    Errorhandler(500, res, e.message);
   }
 };

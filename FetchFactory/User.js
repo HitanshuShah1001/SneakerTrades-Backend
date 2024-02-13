@@ -10,7 +10,7 @@ exports.GetAllUsers = async (req, res) => {
       count: users.length,
     });
   } catch (e) {
-    return Errorhandler(400, res, e.message);
+    return Errorhandler(500, res, e.message);
   }
 };
 
@@ -27,7 +27,7 @@ exports.GetIndividualUser = async (req, res) => {
       ...userobj,
     });
   } catch (e) {
-    Errorhandler(400, res, e.message);
+    Errorhandler(500, res, e.message);
   }
 };
 exports.GetIndividualUserByEmail = async (req, res) => {
@@ -43,7 +43,7 @@ exports.GetIndividualUserByEmail = async (req, res) => {
       user: userobj,
     });
   } catch (e) {
-    return Errorhandler(400, res, e.message);
+    return Errorhandler(500, res, e.message);
   }
 };
 
@@ -60,6 +60,6 @@ exports.FetchTotalUserCoins = async (req, res) => {
       totalCoinsSpent: userCoinsSpent,
     });
   } catch (e) {
-    return Errorhandler(400, res, e.message);
+    return Errorhandler(500, res, e.message);
   }
 };

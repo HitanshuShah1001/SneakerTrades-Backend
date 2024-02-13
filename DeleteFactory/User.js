@@ -10,7 +10,7 @@ exports.DeleteUser = async (req, res) => {
     if (!userToDelete) {
       Errorhandler(404, res, `No user found`);
     }
-    Succeshandler(201, res, SneakerRecord, `User Deleted Succesfully!`);
+    Succeshandler(204, res, SneakerRecord, `User Deleted Succesfully!`);
   } catch (e) {
     Errorhandler(400, res, e.message);
   }

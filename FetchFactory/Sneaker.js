@@ -14,7 +14,7 @@ exports.GetAllSneakersUploadedByUser = async (req, res) => {
       count: records.length,
     });
   } catch (e) {
-    return Errorhandler(400, res, e.message);
+    return Errorhandler(500, res, e.message);
   }
 };
 
@@ -30,7 +30,7 @@ exports.GetAllSneakersNotUploadedByUser = async (req, res) => {
       count: records.length,
     });
   } catch (e) {
-    return Errorhandler(400, res, e.message);
+    return Errorhandler(500, res, e.message);
   }
 };
 
@@ -64,7 +64,7 @@ exports.GetSneakerByFilter = async (req, res) => {
       count: results.length,
     });
   } catch (error) {
-    return Errorhandler(400, res, error.message);
+    return Errorhandler(500, res, error.message);
   }
 };
 
@@ -82,7 +82,7 @@ exports.GetSneakerBySearch = async (req, res) => {
       count: results.length,
     });
   } catch (e) {
-    return Errorhandler(400, res, e.message);
+    return Errorhandler(500, res, e.message);
   }
 };
 
@@ -98,7 +98,7 @@ exports.GetSneakerForPurchase = async (req, res) => {
       count: results.length,
     });
   } catch (e) {
-    return Errorhandler(400, res, e.message);
+    return Errorhandler(500, res, e.message);
   }
 };
 
@@ -114,6 +114,6 @@ exports.GetSneakersForBorrowing = async (req, res) => {
       count: results.length,
     });
   } catch (e) {
-    return Errorhandler(400, res, e.message);
+    return Errorhandler(500, res, e.message);
   }
 };

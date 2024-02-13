@@ -19,9 +19,9 @@ exports.DeleteSneaker = async (req, res) => {
     if (indexOfSneakerToRemove !== -1) {
       userToModify.UploadedSneakers.splice(indexOfSneakerToRemove, 1);
       await userToModify.save();
-      Successhandler(201, res);
+      Successhandler(204, res);
     } else {
-      Errorhandler(400, res, `Sneaker not found`);
+      Errorhandler(404, res, `Sneaker not found`);
     }
   } catch (e) {
     Errorhandler(400, res, e.message);

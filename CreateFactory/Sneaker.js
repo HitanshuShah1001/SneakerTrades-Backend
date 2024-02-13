@@ -31,7 +31,7 @@ exports.UploadSneaker = async (req, res) => {
       userToSaveDetailsFor.SneakersToBeSold.push(_id);
     }
     await userToSaveDetailsFor.save();
-    Successhandler(200, res, SneakerRecord, `Sneaker Uploaded!`);
+    Successhandler(201, res, SneakerRecord, `Sneaker Uploaded!`);
   } catch (e) {
     Errorhandler(400, res, e.message);
   }
