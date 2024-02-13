@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-    "add-and-commit": "git commit -a -m 'Hide sneaker route added'"
+    "add-and-commit": "git commit -a -m '$MESSAGE'"
   },
   "author": "hitanshushah",
   "license": "ISC",
