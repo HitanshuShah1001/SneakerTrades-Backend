@@ -5,11 +5,13 @@ const User = require("../models/User");
 
 exports.DeleteSneaker = async (req, res) => {
   try {
-    const { id: _id } = req.params;
+    const {
+      params: { id: _id },
+    } = req;
     const {
       user: { _id: userId },
     } = req;
-    const [sneakerToDelete, userToModify] = await Promise.all([
+    const [sneakerToDelete, userToModify] = await Promise.allSettled([
       Sneaker.findByIdAndDelete({ _id: _id }),
       User.findById({ _id: userId }),
     ]);
