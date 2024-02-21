@@ -26,6 +26,9 @@ const UserSchema = new mongoose.Schema({
   ],
   SneakersToBeSold: [{ type: mongoose.Schema.Types.ObjectId, ref: "Sneaker" }],
   SneakersToBeLent: [{ type: mongoose.Schema.Types.ObjectId, ref: "Sneaker" }],
+  SneakerRequests: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "SneakerRequest" },
+  ],
   TotalCoinsLeft: { type: Number, default: 100 },
   TotalCoinsSpent: { type: Number, default: 0 },
   TotalSneakersUploaded: { type: Number, default: 0 },

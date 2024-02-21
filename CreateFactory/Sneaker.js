@@ -9,18 +9,22 @@ exports.UploadSneaker = async (req, res) => {
       files,
       protocol,
       user: { _id: userId },
-      body: { Type },
+      body: { Type, ...sneakerDetails },
     } = req;
     const userToSaveDetailsFor = await User.findById(userId);
     const Photos = files.map(
       (file) => `${protocol}://${req.get("host")}/uploads/${file.filename}`
     );
+
     const SneakerRecord = await Sneaker.create({
-      ...req.body,
+      ...sneakerDetails,
       Photos,
-      Owner: req.user._id,
+      Owner: userId,
+      Type,
     });
+
     const { _id } = SneakerRecord;
+
     userToSaveDetailsFor.UploadedSneakers.push(_id);
     if (Type === `lend`) {
       userToSaveDetailsFor.SneakersToBeLent.push(_id);
@@ -30,9 +34,11 @@ exports.UploadSneaker = async (req, res) => {
       userToSaveDetailsFor.SneakersToBeLent.push(_id);
       userToSaveDetailsFor.SneakersToBeSold.push(_id);
     }
+
     await userToSaveDetailsFor.save();
+
     Successhandler(201, res, SneakerRecord, `Sneaker Uploaded!`);
-  } catch (e) {
-    Errorhandler(400, res, e.message);
+  } catch (error) {
+    Errorhandler(400, res, error.message);
   }
 };

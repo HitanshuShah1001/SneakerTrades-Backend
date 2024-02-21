@@ -1,0 +1,7 @@
+WHAT INFORMATION DO WE INTEND TO COLLECT FROM USER FOR SNEAKER REQUEST.
+
+The name of the sneaker,
+the photo of the sneaker(if there),
+the brand name of the sneaker,
+whether they want to borrow/or they want to buy or maybe both.
+their details.

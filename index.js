@@ -4,6 +4,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const UserRouter = require("./routes/User");
 const SneakerRouter = require("./routes/Sneaker");
+const SneakerRequestRouter = require("./routes/SneakerRequest");
 require("dotenv").config();
 
 mongoose
@@ -41,3 +42,4 @@ app.listen(process.env.PORT, () => {
 
 app.use("/user/", UserRouter);
 app.use("/sneaker/", SneakerRouter);
+app.use("/sneakerrequests/", SneakerRequestRouter);
