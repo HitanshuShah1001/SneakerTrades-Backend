@@ -12,7 +12,7 @@ exports.CreateRequest = async (req, res) => {
         : ``,
     };
     const userThatUploaded = await User.findById({ _id });
-    const dataToSave = { ...body, ...image, Owner: _id };
+    const dataToSave = { ...body, ...image, RequestedBy: _id };
     const sneakerRequest = await SneakerRequest.create(dataToSave);
     userThatUploaded.SneakerRequests.push(sneakerRequest);
     await userThatUploaded.save();
@@ -21,6 +21,6 @@ exports.CreateRequest = async (req, res) => {
       data: sneakerRequest,
     });
   } catch (e) {
-    console.log(e, `Error occured`);
+    return Errorhandler(500, res, e.message);
   }
 };

@@ -20,9 +20,11 @@ exports.GetAllSneakersUploadedByUser = async (req, res) => {
 
 exports.GetAllSneakersNotUploadedByUser = async (req, res) => {
   try {
-    const { id: ownerId } = req.body;
+    const {
+      user: { id },
+    } = req;
     const records = await Sneaker.find({
-      Owner: { $ne: ownerId },
+      Owner: { $ne: id },
       To_Show: true,
     });
     return Succeshandler(200, res, {
