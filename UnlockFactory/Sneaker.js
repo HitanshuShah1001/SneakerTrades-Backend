@@ -15,11 +15,11 @@ exports.UnlockSneaker = async (req, res) => {
     userToUpdate.TotalCoinsSpent += 10;
     userToUpdate.TotalCoinsLeft -= 10;
     await userToUpdate.save();
-    Succeshandler(200, res, {
+    return Succeshandler(200, res, {
       data: userToUpdate,
     });
   } catch (e) {
-    Errorhandler(500, res, e.message);
+    return Errorhandler(500, res, e.message);
   }
 };
 
@@ -31,8 +31,8 @@ exports.HideSneaker = async (req, res) => {
     const sneakerToHide = await Sneaker.findById({ _id });
     sneakerToHide.To_Show = false;
     await sneakerToHide.save();
-    Succeshandler(200, res);
+    return Succeshandler(200, res);
   } catch (e) {
-    Errorhandler(500, res, e.message);
+    return Errorhandler(500, res, e.message);
   }
 };

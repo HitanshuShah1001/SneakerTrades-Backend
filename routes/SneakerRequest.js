@@ -7,6 +7,9 @@ const {
   GetAllSneakerRequestsNotDoneByUser,
   GetAllSneakerRequestsUploadedByUser,
 } = require("../FetchFactory/SneakerRequest");
+const {
+  UnlockSneakerRequestDetail,
+} = require("../UnlockFactory/SneakerRequest");
 
 router.post(
   "/createrequest",
@@ -27,4 +30,9 @@ router.get(
   GetAllSneakerRequestsUploadedByUser
 );
 
+router.patch(
+  "/unlockrequestdetail",
+  AuthController.Protect,
+  UnlockSneakerRequestDetail
+);
 module.exports = router;
