@@ -6,6 +6,7 @@ const SneakerRequestSchema = new mongoose.Schema({
   Gender: { type: String, enum: [`Male`, `Female`, `Unisex`], required: true },
   Type: { type: String, enum: [`buy`, `rent`, `both`], required: true },
   Size: { type: Number, required: true },
+  Description: { type: String },
   RequestedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 

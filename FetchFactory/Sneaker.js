@@ -4,8 +4,14 @@ const Succeshandler = require("../Succeshandler/Succeshandler");
 
 exports.GetAllSneakersUploadedByUser = async (req, res) => {
   try {
-    const { _id: ownerId } = req.user;
-    const records = await Sneaker.find({ Owner: ownerId });
+    const {
+      user: { _id: ownerId },
+      pagination: { limit, skip },
+    } = req;
+    const records = await Sneaker.find({ Owner: ownerId })
+      .limit(limit)
+      .skip(skip);
+
     if (records.length == 0) {
       return Errorhandler(404, res, `No records found!`);
     }
@@ -22,11 +28,14 @@ exports.GetAllSneakersNotUploadedByUser = async (req, res) => {
   try {
     const {
       user: { id },
+      pagination: { limit, skip },
     } = req;
     const records = await Sneaker.find({
       Owner: { $ne: id },
       To_Show: true,
-    });
+    })
+      .limit(limit * 1)
+      .skip(skip);
     return Succeshandler(200, res, {
       data: records,
       count: records.length,
@@ -38,7 +47,13 @@ exports.GetAllSneakersNotUploadedByUser = async (req, res) => {
 
 exports.GetSneakerByFilter = async (req, res) => {
   try {
-    const { Gender, Brand, Size, Type } = req.query || {};
+    const {
+      Gender,
+      Brand,
+      Size,
+      Type,
+      pagination: { limit, skip },
+    } = req.query || {};
     // Build the filter object based on user-selected criteria
     const filter = {};
 
@@ -59,7 +74,7 @@ exports.GetSneakerByFilter = async (req, res) => {
     }
 
     // Use Mongoose to search for sneakers that match the filter criteria
-    const results = await Sneaker.find(filter);
+    const results = await Sneaker.find(filter).limit(limit).skip(skip);
 
     return Succeshandler(200, res, {
       data: results,
@@ -72,13 +87,18 @@ exports.GetSneakerByFilter = async (req, res) => {
 
 exports.GetSneakerBySearch = async (req, res) => {
   try {
-    const query = req.query.q;
+    const {
+      q: { query },
+      pagination: { skip, limit },
+    } = req;
     const results = await Sneaker.find({
       $or: [
         { Name: { $regex: new RegExp(query, "i") } },
         { Brand: { $regex: new RegExp(query, "i") } },
       ],
-    });
+    })
+      .limit(limit)
+      .skip(skip);
     return Succeshandler(200, res, {
       data: results,
       count: results.length,
@@ -90,11 +110,16 @@ exports.GetSneakerBySearch = async (req, res) => {
 
 exports.GetSneakerForPurchase = async (req, res) => {
   try {
-    const { _id: ownerId } = req.user;
+    const {
+      user: { _id: ownerId },
+      pagination: { skip, limit },
+    } = req;
     const results = await Sneaker.find({
       Owner: { $ne: ownerId },
       Type: "sell",
-    });
+    })
+      .limit(limit)
+      .skip(skip);
     return Succeshandler(200, res, {
       data: results,
       count: results.length,
@@ -106,11 +131,16 @@ exports.GetSneakerForPurchase = async (req, res) => {
 
 exports.GetSneakersForBorrowing = async (req, res) => {
   try {
-    const { _id: ownerId } = req.user;
+    const {
+      user: { _id: ownerId },
+      pagination: { skip, limit },
+    } = req;
     const results = await Sneaker.find({
       Owner: { $ne: ownerId },
       Type: `lend`,
-    });
+    })
+      .limit(limit)
+      .skip(skip);
     return Succeshandler(200, res, {
       data: results,
       count: results.length,

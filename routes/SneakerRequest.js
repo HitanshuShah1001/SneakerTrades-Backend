@@ -10,6 +10,7 @@ const {
 const {
   UnlockSneakerRequestDetail,
 } = require("../UnlockFactory/SneakerRequest");
+const { PaginateQuery } = require("../Utils/Pagination");
 
 router.post(
   "/createrequest",
@@ -21,12 +22,14 @@ router.post(
 router.get(
   "/requests/",
   AuthController.Protect,
+  PaginateQuery,
   GetAllSneakerRequestsNotDoneByUser
 );
 
 router.get(
   "/requestscreated/",
   AuthController.Protect,
+  PaginateQuery,
   GetAllSneakerRequestsUploadedByUser
 );
 

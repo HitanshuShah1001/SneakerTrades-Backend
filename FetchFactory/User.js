@@ -3,7 +3,8 @@ const User = require("../models/User");
 
 exports.GetAllUsers = async (req, res) => {
   try {
-    const users = await User.find({});
+    const { limit, skip } = req.pagination;
+    const users = await User.find({}).limit(limit).skip(skip);
     return res.status(200).json({
       status: `Success`,
       users,
