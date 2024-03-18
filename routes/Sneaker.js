@@ -29,7 +29,7 @@ router.get(
 );
 
 router.get(
-  "/forpurchase",
+  "/forpurchaseandborrow",
   AuthController.Protect,
   PaginateQuery,
   GetAllSneakersNotUploadedByUser

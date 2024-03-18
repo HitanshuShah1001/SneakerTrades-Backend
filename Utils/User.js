@@ -10,9 +10,10 @@ exports.createToken = async (user, statusCode, res) => {
     const token = this.signInToken(user._id);
     return res.status(statusCode).json({
       status: "Success",
-      token,
+
       data: {
         user,
+        token,
       },
     });
   } catch (e) {

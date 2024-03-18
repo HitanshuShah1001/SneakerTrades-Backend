@@ -29,7 +29,7 @@ exports.GetAllSneakerRequestsNotDoneByUser = async (req, res) => {
       user: { id },
       pagination: { limit, skip },
     } = req;
-    console.log(id);
+
     const records = await SneakerRequest.find({
       RequestedBy: { $ne: id },
     })

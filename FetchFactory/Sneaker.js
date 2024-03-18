@@ -36,6 +36,7 @@ exports.GetAllSneakersNotUploadedByUser = async (req, res) => {
     })
       .limit(limit * 1)
       .skip(skip);
+
     return Succeshandler(200, res, {
       data: records,
       count: records.length,
