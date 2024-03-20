@@ -61,5 +61,5 @@ router.get(
 );
 router.delete("/delete/:id", AuthController.Protect, DeleteSneaker);
 router.patch("/hidesneaker/:id", AuthController.Protect, HideSneaker);
-router.patch("/unlock", AuthController.Protect, UnlockSneaker);
+router.patch("/unlock/:id", AuthController.Protect, UnlockSneaker);
 module.exports = router;

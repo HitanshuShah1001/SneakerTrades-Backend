@@ -7,16 +7,19 @@ exports.UnlockSneaker = async (req, res) => {
   try {
     const {
       user: { _id: userId },
+      params: { id: ownerId },
     } = req;
     const userToUpdate = await User.findById(userId);
-    if (userToUpdate.TotalCoinsLeft < 10) {
+    const userToSend = await User.findById(ownerId);
+    if (userToUpdate.TotalCoinsLeft > 10) {
       return Errorhandler(403, res, `Insufficient balance`);
     }
     userToUpdate.TotalCoinsSpent += 10;
     userToUpdate.TotalCoinsLeft -= 10;
     await userToUpdate.save();
+    await userToSend.save();
     return Succeshandler(200, res, {
-      data: userToUpdate,
+      user: userToSend,
     });
   } catch (e) {
     return Errorhandler(500, res, e.message);

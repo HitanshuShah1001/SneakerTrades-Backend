@@ -1,4 +1,5 @@
 const Errorhandler = require("../Errorhandler/Errorhandler");
+const Succeshandler = require("../Succeshandler/Succeshandler");
 const User = require("../models/User");
 
 exports.GetAllUsers = async (req, res) => {
@@ -60,6 +61,18 @@ exports.FetchTotalUserCoins = async (req, res) => {
       totalCoinsLeft: userCoins,
       totalCoinsSpent: userCoinsSpent,
     });
+  } catch (e) {
+    return Errorhandler(500, res, e.message);
+  }
+};
+
+exports.GetUserById = async (req, res) => {
+  try {
+    const {
+      params: { id: _id },
+    } = req;
+    const user = await User.findById({ _id });
+    return Succeshandler(200, res, { user });
   } catch (e) {
     return Errorhandler(500, res, e.message);
   }

@@ -34,7 +34,7 @@ router.get(
 );
 
 router.patch(
-  "/unlockrequestdetail",
+  "/unlockrequestdetail/:id",
   AuthController.Protect,
   UnlockSneakerRequestDetail
 );
