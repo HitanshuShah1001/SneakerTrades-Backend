@@ -12,8 +12,9 @@ exports.UploadSneaker = async (req, res) => {
       body: { Type, ...sneakerDetails },
     } = req;
     const userToSaveDetailsFor = await User.findById(userId);
+
     const Photos = files.map(
-      (file) => `${protocol}://${req.get("host")}/uploads/${file.filename}`
+      (file) => `${protocol}://${req.get("host")}/${file.path}`
     );
 
     const SneakerRecord = await Sneaker.create({
