@@ -89,13 +89,14 @@ exports.GetSneakerByFilter = async (req, res) => {
 exports.GetSneakerBySearch = async (req, res) => {
   try {
     const {
-      q: { query },
+      query,
       pagination: { skip, limit },
     } = req;
+
     const results = await Sneaker.find({
       $or: [
-        { Name: { $regex: new RegExp(query, "i") } },
-        { Brand: { $regex: new RegExp(query, "i") } },
+        { Name: { $regex: new RegExp(query.q, "i") } },
+        { Brand: { $regex: new RegExp(query.q, "i") } },
       ],
     })
       .limit(limit)
@@ -105,6 +106,7 @@ exports.GetSneakerBySearch = async (req, res) => {
       count: results.length,
     });
   } catch (e) {
+    console.log(req.query);
     return Errorhandler(500, res, e.message);
   }
 };

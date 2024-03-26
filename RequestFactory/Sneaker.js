@@ -5,11 +5,11 @@ exports.CreateRequest = async (req, res) => {
     const {
       user: { _id },
       body,
+      protocol,
+      file,
     } = req;
     const image = {
-      Photo: req.file
-        ? `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`
-        : ``,
+      Photo: file ? `${protocol}://${req.get("host")}/${file.path}` : ``,
     };
     const userThatUploaded = await User.findById({ _id });
     const dataToSave = { ...body, ...image, RequestedBy: _id };
@@ -21,6 +21,6 @@ exports.CreateRequest = async (req, res) => {
       data: sneakerRequest,
     });
   } catch (e) {
-    return Errorhandler(500, res, e.message);
+    return console.log(e.message);
   }
 };
