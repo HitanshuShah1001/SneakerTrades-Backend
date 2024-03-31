@@ -7,15 +7,14 @@ const SneakerSchema = new mongoose.Schema({
   Type: { type: String, enum: [`lend`, `sell`, `both`], required: true },
   Size: { type: Number, required: true },
   Category: { type: String, enum: ["casual", "non-casual"] },
-  Location: {
-    type: [Number],
-    validate: { validator: (value) => value.length == 2 },
-    required: true,
-  },
   To_Show: { type: Boolean, default: true },
   Is_Bought: { type: Boolean, default: false },
   Is_Lent: { type: Boolean, default: false },
   Owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  OwnerDetails: {
+    type: Object,
+    required: true,
+  },
   Price: {
     type: Number,
   },

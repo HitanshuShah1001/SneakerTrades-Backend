@@ -6,10 +6,9 @@ const { CreateRequest } = require("../RequestFactory/Sneaker");
 const {
   GetAllSneakerRequestsNotDoneByUser,
   GetAllSneakerRequestsUploadedByUser,
+  GetSneakerRequestsBySearch,
 } = require("../FetchFactory/SneakerRequest");
-const {
-  UnlockSneakerRequestDetail,
-} = require("../UnlockFactory/SneakerRequest");
+require("../UnlockFactory/SneakerRequest");
 const { PaginateQuery } = require("../Utils/Pagination");
 
 router.post(
@@ -33,9 +32,11 @@ router.get(
   GetAllSneakerRequestsUploadedByUser
 );
 
-router.patch(
-  "/unlockrequestdetail/:id",
+router.get(
+  "/search/",
   AuthController.Protect,
-  UnlockSneakerRequestDetail
+  PaginateQuery,
+  GetSneakerRequestsBySearch
 );
+
 module.exports = router;

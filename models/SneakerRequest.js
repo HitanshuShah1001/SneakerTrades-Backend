@@ -8,6 +8,10 @@ const SneakerRequestSchema = new mongoose.Schema({
   Size: { type: Number, required: true },
   Description: { type: String },
   RequestedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  RequestorDetails: {
+    type: Object,
+    required: true,
+  },
 });
 
 const SneakerRequest = mongoose.model("SneakerRequest", SneakerRequestSchema);

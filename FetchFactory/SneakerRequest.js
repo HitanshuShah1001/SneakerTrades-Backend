@@ -43,3 +43,28 @@ exports.GetAllSneakerRequestsNotDoneByUser = async (req, res) => {
     return Errorhandler(500, res, e.message);
   }
 };
+
+exports.GetSneakerRequestsBySearch = async (req, res) => {
+  try {
+    const {
+      query,
+      pagination: { skip, limit },
+    } = req;
+
+    const results = await SneakerRequest.find({
+      $or: [
+        { Name: { $regex: new RegExp(query.q, "i") } },
+        { Brand: { $regex: new RegExp(query.q, "i") } },
+      ],
+    })
+      .limit(limit)
+      .skip(skip);
+    return Succeshandler(200, res, {
+      data: results,
+      count: results.length,
+    });
+  } catch (e) {
+    console.log(req.query);
+    return Errorhandler(500, res, e.message);
+  }
+};

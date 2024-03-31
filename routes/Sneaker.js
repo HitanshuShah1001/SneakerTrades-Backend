@@ -12,7 +12,7 @@ const {
 const AuthController = require("../controller/Authcontroller");
 const UserController = require("../controller/Usercontroller");
 const { DeleteSneaker } = require("../DeleteFactory/Sneaker");
-const { HideSneaker, UnlockSneaker } = require("../UnlockFactory/Sneaker");
+const { HideSneaker } = require("../UnlockFactory/Sneaker");
 const { PaginateQuery } = require("../Utils/Pagination");
 router.post(
   "/upload",
@@ -61,5 +61,5 @@ router.get(
 );
 router.delete("/delete/:id", AuthController.Protect, DeleteSneaker);
 router.patch("/hidesneaker/:id", AuthController.Protect, HideSneaker);
-router.patch("/unlock/:id", AuthController.Protect, UnlockSneaker);
+
 module.exports = router;

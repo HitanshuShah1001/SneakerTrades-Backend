@@ -8,9 +8,10 @@ exports.UploadSneaker = async (req, res) => {
     const {
       files,
       protocol,
-      user: { _id: userId },
+      user: { _id: userId, Name, Phone, Email },
       body: { Type, ...sneakerDetails },
     } = req;
+
     const userToSaveDetailsFor = await User.findById(userId);
 
     const Photos = files.map(
@@ -21,6 +22,11 @@ exports.UploadSneaker = async (req, res) => {
       ...sneakerDetails,
       Photos,
       Owner: userId,
+      OwnerDetails: {
+        Name,
+        Email,
+        Phone,
+      },
       Type,
     });
 

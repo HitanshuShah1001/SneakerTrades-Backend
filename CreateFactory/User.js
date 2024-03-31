@@ -9,9 +9,10 @@ exports.SignUp = async (req, res) => {
   try {
     const image = {
       ProfilePhoto: req.file
-        ? `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`
+        ? `${req.protocol}://${req.get("host")}/${req.file.path}`
         : ``,
     };
+
     const data = { ...req.body, ...image };
     const user = await User.create(data);
     UserUtil.createToken(user, 201, res);
