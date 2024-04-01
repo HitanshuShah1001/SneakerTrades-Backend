@@ -8,6 +8,7 @@ const {
   GetSneakerByFilter,
   GetSneakerForPurchase,
   GetSneakersForBorrowing,
+  GetSneakers,
 } = require("../FetchFactory/Sneaker");
 const AuthController = require("../controller/Authcontroller");
 const UserController = require("../controller/Usercontroller");
@@ -32,33 +33,9 @@ router.get(
   "/forpurchaseandborrow",
   AuthController.Protect,
   PaginateQuery,
-  GetAllSneakersNotUploadedByUser
+  GetSneakers
 );
 
-router.get(
-  "/search/",
-  AuthController.Protect,
-  PaginateQuery,
-  GetSneakerBySearch
-);
-router.get(
-  "/filter/",
-  AuthController.Protect,
-  PaginateQuery,
-  GetSneakerByFilter
-);
-router.get(
-  "/purchase/",
-  AuthController.Protect,
-  PaginateQuery,
-  GetSneakerForPurchase
-);
-router.get(
-  "/borrow/",
-  AuthController.Protect,
-  PaginateQuery,
-  GetSneakersForBorrowing
-);
 router.delete("/delete/:id", AuthController.Protect, DeleteSneaker);
 router.patch("/hidesneaker/:id", AuthController.Protect, HideSneaker);
 

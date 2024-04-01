@@ -23,48 +23,52 @@ exports.GetAllSneakerRequestsUploadedByUser = async (req, res) => {
   }
 };
 
-exports.GetAllSneakerRequestsNotDoneByUser = async (req, res) => {
+exports.GetSneakerRequests = async (req, res) => {
   try {
     const {
-      user: { id },
+      searchQuery,
+      filters,
       pagination: { limit, skip },
-    } = req;
+    } = req.body;
 
-    const records = await SneakerRequest.find({
-      RequestedBy: { $ne: id },
-    })
+    const filter = {};
+
+    if (filters) {
+      if (filters.Gender && filters.Gender.length > 0) {
+        filter.Gender = { $in: filters.Gender };
+      }
+
+      if (filters.Brand && filters.Brand.length > 0) {
+        filter.Brand = {
+          $in: filters.Brand.map((brand) => new RegExp(brand, "i")),
+        };
+      }
+
+      if (filters.Size && filters.Size.length > 0) {
+        filter.Size = { $in: filters.Size };
+      }
+    }
+    let query = {};
+    if (searchQuery) {
+      query = {
+        $or: [
+          { Name: { $regex: new RegExp(searchQuery, "i") } },
+          { Brand: { $regex: new RegExp(searchQuery, "i") } },
+        ],
+      };
+    }
+
+    const combinedQuery = { ...query, ...filter };
+
+    const results = await SneakerRequest.find(combinedQuery)
       .limit(limit)
       .skip(skip);
-    return Succeshandler(200, res, {
-      data: records,
-      count: records.length,
-    });
-  } catch (e) {
-    return Errorhandler(500, res, e.message);
-  }
-};
 
-exports.GetSneakerRequestsBySearch = async (req, res) => {
-  try {
-    const {
-      query,
-      pagination: { skip, limit },
-    } = req;
-
-    const results = await SneakerRequest.find({
-      $or: [
-        { Name: { $regex: new RegExp(query.q, "i") } },
-        { Brand: { $regex: new RegExp(query.q, "i") } },
-      ],
-    })
-      .limit(limit)
-      .skip(skip);
     return Succeshandler(200, res, {
       data: results,
       count: results.length,
     });
-  } catch (e) {
-    console.log(req.query);
-    return Errorhandler(500, res, e.message);
+  } catch (error) {
+    return Errorhandler(500, res, error.message);
   }
 };

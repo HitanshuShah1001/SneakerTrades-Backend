@@ -7,6 +7,7 @@ const {
   GetAllSneakerRequestsNotDoneByUser,
   GetAllSneakerRequestsUploadedByUser,
   GetSneakerRequestsBySearch,
+  GetSneakerRequests,
 } = require("../FetchFactory/SneakerRequest");
 require("../UnlockFactory/SneakerRequest");
 const { PaginateQuery } = require("../Utils/Pagination");
@@ -22,7 +23,7 @@ router.get(
   "/requests/",
   AuthController.Protect,
   PaginateQuery,
-  GetAllSneakerRequestsNotDoneByUser
+  GetSneakerRequests
 );
 
 router.get(
@@ -30,13 +31,6 @@ router.get(
   AuthController.Protect,
   PaginateQuery,
   GetAllSneakerRequestsUploadedByUser
-);
-
-router.get(
-  "/search/",
-  AuthController.Protect,
-  PaginateQuery,
-  GetSneakerRequestsBySearch
 );
 
 module.exports = router;
