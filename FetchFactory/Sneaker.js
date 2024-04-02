@@ -29,9 +29,11 @@ exports.GetSneakers = async (req, res) => {
     const {
       searchQuery,
       filters,
-      pagination: { limit, skip },
+      pagination: { limit, page },
     } = req.body;
-
+    const limitInt = parseInt(limit);
+    const pageInt = parseInt(page);
+    const skip = (pageInt - 1) * limitInt;
     // Build the filter object based on user-selected criteria
     const filter = {};
 
@@ -50,7 +52,6 @@ exports.GetSneakers = async (req, res) => {
         filter.Size = { $in: filters.Size };
       }
     }
-    console.log(filter, "FIalters");
     let query = {};
     if (searchQuery) {
       query = {

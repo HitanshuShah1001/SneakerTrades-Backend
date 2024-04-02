@@ -28,9 +28,11 @@ exports.GetSneakerRequests = async (req, res) => {
     const {
       searchQuery,
       filters,
-      pagination: { limit, skip },
+      pagination: { limit, page },
     } = req.body;
-
+    const limitInt = parseInt(limit);
+    const pageInt = parseInt(page);
+    const skip = (pageInt - 1) * limitInt;
     const filter = {};
 
     if (filters) {
@@ -61,7 +63,7 @@ exports.GetSneakerRequests = async (req, res) => {
     const combinedQuery = { ...query, ...filter };
 
     const results = await SneakerRequest.find(combinedQuery)
-      .limit(limit)
+      .limit(limitInt)
       .skip(skip);
 
     return Succeshandler(200, res, {

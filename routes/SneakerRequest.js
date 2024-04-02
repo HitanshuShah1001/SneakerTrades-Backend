@@ -4,9 +4,7 @@ const AuthController = require("../controller/Authcontroller");
 const UserController = require("../controller/Usercontroller");
 const { CreateRequest } = require("../RequestFactory/Sneaker");
 const {
-  GetAllSneakerRequestsNotDoneByUser,
   GetAllSneakerRequestsUploadedByUser,
-  GetSneakerRequestsBySearch,
   GetSneakerRequests,
 } = require("../FetchFactory/SneakerRequest");
 require("../UnlockFactory/SneakerRequest");
@@ -19,12 +17,7 @@ router.post(
   CreateRequest
 );
 
-router.get(
-  "/requests/",
-  AuthController.Protect,
-  PaginateQuery,
-  GetSneakerRequests
-);
+router.post("/requests/", AuthController.Protect, GetSneakerRequests);
 
 router.get(
   "/requestscreated/",
