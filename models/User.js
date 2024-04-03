@@ -34,7 +34,10 @@ const UserSchema = new mongoose.Schema(
     SneakerRequests: [
       { type: mongoose.Schema.Types.ObjectId, ref: "SneakerRequest" },
     ],
+    IsPremium: { type: Boolean, default: false },
+    PremiumActivatedAt: { type: Date },
     TotalSneakersUploaded: { type: Number, default: 0 },
+    TotalRequestsDone: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

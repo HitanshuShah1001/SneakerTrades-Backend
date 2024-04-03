@@ -1,3 +1,4 @@
+const Errorhandler = require("../Errorhandler/Errorhandler");
 const SneakerRequest = require("../models/SneakerRequest");
 const User = require("../models/User");
 const Successhandler = require("../Succeshandler/Succeshandler");
@@ -10,10 +11,22 @@ exports.CreateRequest = async (req, res) => {
       protocol,
       file,
     } = req;
+
+    const userThatUploaded = await User.findById({ _id });
+    if (
+      userThatUploaded.TotalRequestsDone >= 3 &&
+      !userThatUploaded.IsPremium
+    ) {
+      return Errorhandler(
+        403,
+        res,
+        `Upgrade to premium to upload create more requests!`
+      );
+    }
     const image = {
       Photo: file ? `${protocol}://${req.get("host")}/${file.path}` : ``,
     };
-    const userThatUploaded = await User.findById({ _id });
+
     const dataToSave = {
       ...body,
       ...image,
@@ -22,6 +35,7 @@ exports.CreateRequest = async (req, res) => {
     };
     const sneakerRequest = await SneakerRequest.create(dataToSave);
     userThatUploaded.SneakerRequests.push(sneakerRequest);
+    userThatUploaded.TotalRequestsDone += 1;
     await userThatUploaded.save();
     Successhandler(201, res, sneakerRequest, `Sneaker Uploaded!`);
   } catch (e) {
