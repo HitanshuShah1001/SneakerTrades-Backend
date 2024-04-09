@@ -30,6 +30,9 @@ exports.GetSneakerRequests = async (req, res) => {
       filters,
       pagination: { limit, page },
     } = req.body;
+    const {
+      user: { _id: id },
+    } = req;
     const limitInt = parseInt(limit);
     const pageInt = parseInt(page);
     const skip = (pageInt - 1) * limitInt;
@@ -60,7 +63,7 @@ exports.GetSneakerRequests = async (req, res) => {
       };
     }
 
-    const combinedQuery = { ...query, ...filter };
+    const combinedQuery = { ...query, ...filter, RequestedBy: { $ne: id } };
 
     const results = await SneakerRequest.find(combinedQuery)
       .limit(limitInt)

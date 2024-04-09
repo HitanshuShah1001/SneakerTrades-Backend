@@ -31,10 +31,12 @@ exports.GetSneakers = async (req, res) => {
       filters,
       pagination: { limit, page },
     } = req.body;
+    const {
+      user: { _id: id },
+    } = req;
     const limitInt = parseInt(limit);
     const pageInt = parseInt(page);
     const skip = (pageInt - 1) * limitInt;
-    // Build the filter object based on user-selected criteria
     const filter = {};
 
     if (filters) {
@@ -62,16 +64,14 @@ exports.GetSneakers = async (req, res) => {
       };
     }
 
-    // Combine filter and search query
-    const combinedQuery = { ...query, ...filter };
-
+    const combinedQuery = { ...query, ...filter, Owner: { $ne: id } };
     const results = await Sneaker.find(combinedQuery).limit(limit).skip(skip);
-
     return Succeshandler(200, res, {
       data: results,
       count: results.length,
     });
   } catch (error) {
+    console.log(error, "Error");
     return Errorhandler(500, res, error.message);
   }
 };
