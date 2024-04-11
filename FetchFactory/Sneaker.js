@@ -6,11 +6,8 @@ exports.GetAllSneakersUploadedByUser = async (req, res) => {
   try {
     const {
       user: { _id: ownerId },
-      pagination: { limit, skip },
     } = req;
-    const records = await Sneaker.find({ Owner: ownerId })
-      .limit(limit)
-      .skip(skip);
+    const records = await Sneaker.find({ Owner: ownerId });
 
     if (records.length == 0) {
       return Errorhandler(404, res, `No records found!`);

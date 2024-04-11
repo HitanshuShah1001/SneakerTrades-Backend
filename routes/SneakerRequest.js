@@ -22,7 +22,6 @@ router.post("/requests/", AuthController.Protect, GetSneakerRequests);
 router.get(
   "/requestscreated/",
   AuthController.Protect,
-  PaginateQuery,
   GetAllSneakerRequestsUploadedByUser
 );
 

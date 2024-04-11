@@ -6,11 +6,9 @@ exports.GetAllSneakerRequestsUploadedByUser = async (req, res) => {
   try {
     const {
       user: { _id },
-      pagination: { limit, skip },
     } = req;
-    const records = await SneakerRequest.find({ RequestedBy: _id })
-      .limit(limit)
-      .skip(skip);
+    const records = await SneakerRequest.find({ RequestedBy: _id });
+
     if (records.length == 0) {
       return Errorhandler(404, res, `No records found!`);
     }

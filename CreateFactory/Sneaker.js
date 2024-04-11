@@ -49,6 +49,7 @@ exports.UploadSneaker = async (req, res) => {
       userToSaveDetailsFor.SneakersToBeLent.push(_id);
       userToSaveDetailsFor.SneakersToBeSold.push(_id);
     }
+    userToSaveDetailsFor.TotalSneakersUploaded += 1;
 
     await userToSaveDetailsFor.save();
 

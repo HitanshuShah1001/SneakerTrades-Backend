@@ -3,11 +3,6 @@ const router = express.Router();
 const { UploadSneaker } = require("../CreateFactory/Sneaker");
 const {
   GetAllSneakersUploadedByUser,
-  GetAllSneakersNotUploadedByUser,
-  GetSneakerBySearch,
-  GetSneakerByFilter,
-  GetSneakerForPurchase,
-  GetSneakersForBorrowing,
   GetSneakers,
 } = require("../FetchFactory/Sneaker");
 const AuthController = require("../controller/Authcontroller");
@@ -25,7 +20,6 @@ router.post(
 router.get(
   "/getsneakersowned",
   AuthController.Protect,
-  PaginateQuery,
   GetAllSneakersUploadedByUser
 );
 
