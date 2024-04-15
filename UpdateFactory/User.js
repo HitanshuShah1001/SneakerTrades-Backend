@@ -1,3 +1,4 @@
+const Errorhandler = require("../Errorhandler/Errorhandler");
 const Succeshandler = require("../Succeshandler/Succeshandler");
 const User = require("../models/User");
 
@@ -50,5 +51,24 @@ exports.DeductUserCoins = async (req, res) => {
     );
   } catch (e) {
     return Errorhandler(400, res, e.message);
+  }
+};
+
+exports.UpdateUser = async (req, res) => {
+  try {
+    const { _id: id } = req.user;
+    const image = {
+      ProfilePhoto: req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path}`
+        : ``,
+    };
+    const data = { ...req.body, ...image };
+    const user = await User.findByIdAndUpdate(id, data, {
+      new: true,
+    });
+    return Succeshandler(200, res, user, `User updated succesfully`);
+  } catch (e) {
+    console.log(e);
+    Errorhandler(400, res, e);
   }
 };

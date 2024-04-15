@@ -12,7 +12,6 @@ exports.SignUp = async (req, res) => {
         ? `${req.protocol}://${req.get("host")}/${req.file.path}`
         : ``,
     };
-
     const data = { ...req.body, ...image };
     const user = await User.create(data);
     UserUtil.createToken(user, 201, res);
