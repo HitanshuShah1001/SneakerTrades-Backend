@@ -56,11 +56,12 @@ exports.DeductUserCoins = async (req, res) => {
 
 exports.UpdateUser = async (req, res) => {
   try {
-    const { _id: id } = req.user;
+    const { _id: id, ProfilePhoto } = req.user || {};
+    console.log(req.user);
     const image = {
       ProfilePhoto: req.file
         ? `${req.protocol}://${req.get("host")}/${req.file.path}`
-        : ``,
+        : ProfilePhoto,
     };
     const data = { ...req.body, ...image };
     const user = await User.findByIdAndUpdate(id, data, {

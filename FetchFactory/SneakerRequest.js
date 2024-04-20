@@ -23,17 +23,10 @@ exports.GetAllSneakerRequestsUploadedByUser = async (req, res) => {
 
 exports.GetSneakerRequests = async (req, res) => {
   try {
-    const {
-      searchQuery,
-      filters,
-      pagination: { limit, page },
-    } = req.body;
+    const { searchQuery, filters } = req.body;
     const {
       user: { _id: id },
     } = req;
-    const limitInt = parseInt(limit);
-    const pageInt = parseInt(page);
-    const skip = (pageInt - 1) * limitInt;
     const filter = {};
 
     if (filters) {
@@ -63,10 +56,7 @@ exports.GetSneakerRequests = async (req, res) => {
 
     const combinedQuery = { ...query, ...filter, RequestedBy: { $ne: id } };
 
-    const results = await SneakerRequest.find(combinedQuery)
-      .limit(limitInt)
-      .skip(skip);
-
+    const results = await SneakerRequest.find(combinedQuery);
     return Succeshandler(200, res, {
       data: results,
       count: results.length,

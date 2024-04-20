@@ -23,17 +23,10 @@ exports.GetAllSneakersUploadedByUser = async (req, res) => {
 
 exports.GetSneakers = async (req, res) => {
   try {
-    const {
-      searchQuery,
-      filters,
-      pagination: { limit, page },
-    } = req.body;
+    const { searchQuery, filters } = req.body;
     const {
       user: { _id: id },
     } = req;
-    const limitInt = parseInt(limit);
-    const pageInt = parseInt(page);
-    const skip = (pageInt - 1) * limitInt;
     const filter = {};
 
     if (filters) {
@@ -60,15 +53,13 @@ exports.GetSneakers = async (req, res) => {
         ],
       };
     }
-
     const combinedQuery = { ...query, ...filter, Owner: { $ne: id } };
-    const results = await Sneaker.find(combinedQuery).limit(limit).skip(skip);
+    const results = await Sneaker.find(combinedQuery);
     return Succeshandler(200, res, {
       data: results,
       count: results.length,
     });
   } catch (error) {
-    console.log(error, "Error");
     return Errorhandler(500, res, error.message);
   }
 };

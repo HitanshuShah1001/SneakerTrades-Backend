@@ -7,6 +7,11 @@ const UserSchema = new mongoose.Schema(
     Phone: { type: String, required: true },
     Email: { type: String },
     ProfilePhoto: { type: String },
+    Gender: {
+      type: String,
+      enum: [`Male`, `Female`, `Unisex`],
+      required: true,
+    },
     UploadedSneakers: [
       {
         type: mongoose.Schema.Types.ObjectId,
