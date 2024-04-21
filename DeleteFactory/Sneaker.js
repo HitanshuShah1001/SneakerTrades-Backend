@@ -5,25 +5,29 @@ const User = require("../models/User");
 
 exports.DeleteSneaker = async (req, res) => {
   try {
-    const {
-      params: { id: _id },
-    } = req;
-    const {
-      user: { _id: userId },
-    } = req;
-    const [sneakerToDelete, userToModify] = await Promise.allSettled([
-      Sneaker.findByIdAndDelete({ _id: _id }),
-      User.findById({ _id: userId }),
+    const { id: _id } = req.params;
+    const { _id: userId } = req.user;
+
+    const [deletedSneaker, userToUpdate] = await Promise.all([
+      Sneaker.findByIdAndDelete(_id),
+      User.findById(userId),
     ]);
-    const indexOfSneakerToRemove = userToModify.UploadedSneakers.indexOf(_id);
+
+    if (!deletedSneaker) {
+      return Errorhandler(404, res, `Sneaker not found`);
+    }
+
+    const { UploadedSneakers } = userToUpdate;
+    const indexOfSneakerToRemove = UploadedSneakers.indexOf(_id);
+
     if (indexOfSneakerToRemove !== -1) {
-      userToModify.UploadedSneakers.splice(indexOfSneakerToRemove, 1);
-      await userToModify.save();
+      UploadedSneakers.splice(indexOfSneakerToRemove, 1);
+      await userToUpdate.save();
       Successhandler(204, res);
     } else {
-      Errorhandler(404, res, `Sneaker not found`);
+      Errorhandler(404, res, `Sneaker not found in user's uploaded sneakers`);
     }
-  } catch (e) {
-    Errorhandler(400, res, e.message);
+  } catch (error) {
+    Errorhandler(400, res, error.message);
   }
 };

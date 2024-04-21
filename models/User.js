@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema(
     ProfilePhoto: { type: String },
     Gender: {
       type: String,
-      enum: [`Male`, `Female`, `Unisex`],
+      enum: [`Male`, `Female`, `Other`],
       required: true,
     },
     UploadedSneakers: [

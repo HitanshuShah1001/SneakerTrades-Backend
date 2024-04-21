@@ -9,7 +9,6 @@ const AuthController = require("../controller/Authcontroller");
 const UserController = require("../controller/Usercontroller");
 const { DeleteSneaker } = require("../DeleteFactory/Sneaker");
 const { HideSneaker } = require("../UnlockFactory/Sneaker");
-const { PaginateQuery } = require("../Utils/Pagination");
 router.post(
   "/upload",
   AuthController.Protect,
