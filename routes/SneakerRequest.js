@@ -7,6 +7,7 @@ const {
   GetAllSneakerRequestsUploadedByUser,
   GetSneakerRequests,
 } = require("../FetchFactory/SneakerRequest");
+const { DeleteSneakerRequest } = require("../DeleteFactory/SneakerRequest");
 require("../UnlockFactory/SneakerRequest");
 
 router.post(
@@ -17,7 +18,7 @@ router.post(
 );
 
 router.post("/requests/", AuthController.Protect, GetSneakerRequests);
-
+router.delete("/delete/:id", AuthController.Protect, DeleteSneakerRequest);
 router.get(
   "/requestscreated/",
   AuthController.Protect,
