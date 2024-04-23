@@ -18,24 +18,6 @@ const UserSchema = new mongoose.Schema(
         ref: "Sneaker",
       },
     ],
-    SneakersLent: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Sneaker",
-      },
-    ],
-    SneakersSold: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Sneaker",
-      },
-    ],
-    SneakersToBeSold: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "Sneaker" },
-    ],
-    SneakersToBeLent: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "Sneaker" },
-    ],
     SneakerRequests: [
       { type: mongoose.Schema.Types.ObjectId, ref: "SneakerRequest" },
     ],
