@@ -37,20 +37,9 @@ exports.UploadSneaker = async (req, res) => {
       },
       Type,
     });
-
     const { _id } = SneakerRecord;
-
     userToSaveDetailsFor.UploadedSneakers.push(_id);
-    if (Type === `lend`) {
-      userToSaveDetailsFor.SneakersToBeLent.push(_id);
-    } else if (Type === `sell`) {
-      userToSaveDetailsFor.SneakersToBeSold.push(_id);
-    } else {
-      userToSaveDetailsFor.SneakersToBeLent.push(_id);
-      userToSaveDetailsFor.SneakersToBeSold.push(_id);
-    }
     userToSaveDetailsFor.TotalSneakersUploaded += 1;
-
     await userToSaveDetailsFor.save();
 
     Successhandler(201, res, SneakerRecord, `Sneaker Uploaded!`);

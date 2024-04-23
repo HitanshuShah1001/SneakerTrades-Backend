@@ -11,11 +11,9 @@ const SneakerSchema = new mongoose.Schema(
     },
     Type: { type: String, enum: [`lend`, `sell`, `both`], required: true },
     Size: { type: Number, required: true },
-    Category: { type: String, enum: ["casual", "non-casual"] },
     To_Show: { type: Boolean, default: true },
-    Is_Bought: { type: Boolean, default: false },
-    Is_Lent: { type: Boolean, default: false },
     Owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+
     OwnerDetails: {
       type: Object,
       required: true,
@@ -32,7 +30,6 @@ const SneakerSchema = new mongoose.Schema(
         return ["lend", "both"].includes(this.Type);
       },
     },
-    TransactionComplete: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

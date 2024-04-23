@@ -16,6 +16,14 @@ exports.SignUp = async (req, res) => {
     const user = await User.create(data);
     UserUtil.createToken(user, 201, res);
   } catch (e) {
-    Errorhandler(400, res, e);
+    if (e.code === 11000) {
+      console.log(e.keyPattern);
+      return Errorhandler(
+        400,
+        res,
+        `${Object.keys(e.keyPattern)[0]} is duplicated`
+      );
+    }
+    return Errorhandler(400, res, e);
   }
 };
