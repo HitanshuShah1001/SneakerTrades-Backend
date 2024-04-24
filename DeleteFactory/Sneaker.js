@@ -23,7 +23,9 @@ exports.DeleteSneaker = async (req, res) => {
     if (indexOfSneakerToRemove !== -1) {
       UploadedSneakers.splice(indexOfSneakerToRemove, 1);
       await userToUpdate.save();
-      Successhandler(204, res);
+      return res.json({
+        status: `Success`,
+      });
     } else {
       Errorhandler(404, res, `Sneaker not found in user's uploaded sneakers`);
     }

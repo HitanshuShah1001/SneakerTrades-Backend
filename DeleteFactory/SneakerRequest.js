@@ -22,11 +22,18 @@ exports.DeleteSneakerRequest = async (req, res) => {
     if (indexOfSneakerToRemove !== -1) {
       SneakerRequests.splice(indexOfSneakerToRemove, 1);
       await userToUpdate.save();
-      Successhandler(204, res);
     } else {
-      Errorhandler(404, res, `Request not found in user's uploaded sneakers`);
+      return Errorhandler(
+        404,
+        res,
+        `Request not found in user's uploaded sneakers`
+      );
     }
+    return res.json({
+      status: `Success`,
+    });
   } catch (error) {
-    Errorhandler(400, res, error.message);
+    console.log(error, "error");
+    return Errorhandler(400, res, error.message);
   }
 };

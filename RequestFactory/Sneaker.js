@@ -14,7 +14,7 @@ exports.CreateRequest = async (req, res) => {
 
     const userThatUploaded = await User.findById({ _id });
     if (
-      userThatUploaded.TotalRequestsDone >= 3 &&
+      userThatUploaded.TotalRequestsDone >= 100 &&
       !userThatUploaded.IsPremium
     ) {
       return Errorhandler(
