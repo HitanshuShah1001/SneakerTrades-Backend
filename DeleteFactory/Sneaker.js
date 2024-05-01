@@ -1,5 +1,4 @@
 const Errorhandler = require("../Errorhandler/Errorhandler");
-const Successhandler = require("../Succeshandler/Succeshandler");
 const Sneaker = require("../models/Sneaker");
 const User = require("../models/User");
 

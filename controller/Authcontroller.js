@@ -34,7 +34,6 @@ exports.Protect = async (req, res, next) => {
 };
 
 exports.Login = async (req, res) => {
-  console.log(req.body);
   let { Phone } = req.body;
   const user = await User.findOne({ Phone });
   if (!user) {

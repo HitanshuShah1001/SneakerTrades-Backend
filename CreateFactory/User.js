@@ -17,7 +17,6 @@ exports.SignUp = async (req, res) => {
     UserUtil.createToken(user, 201, res);
   } catch (e) {
     if (e.code === 11000) {
-      console.log(e.keyPattern);
       return Errorhandler(
         400,
         res,

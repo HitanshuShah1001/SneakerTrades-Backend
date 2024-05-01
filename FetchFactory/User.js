@@ -4,8 +4,7 @@ const User = require("../models/User");
 
 exports.GetAllUsers = async (req, res) => {
   try {
-    const { limit, skip } = req.pagination;
-    const users = await User.find({}).limit(limit).skip(skip);
+    const users = await User.find({});
     return res.status(200).json({
       status: `Success`,
       users,
@@ -49,30 +48,32 @@ exports.GetIndividualUserByEmail = async (req, res) => {
   }
 };
 
-exports.FetchTotalUserCoins = async (req, res) => {
-  try {
-    const {
-      user: { _id },
-    } = req;
-    const userToGetCoinsFor = await User.findById({ _id });
-    const userCoins = userToGetCoinsFor.TotalCoinsLeft;
-    const userCoinsSpent = userToGetCoinsFor.TotalCoinsSpent;
-    return Succeshandler(200, res, {
-      totalCoinsLeft: userCoins,
-      totalCoinsSpent: userCoinsSpent,
-    });
-  } catch (e) {
-    return Errorhandler(500, res, e.message);
-  }
-};
-
 exports.GetUserById = async (req, res) => {
   try {
     const {
       params: { id: _id },
     } = req;
     const user = await User.findById({ _id });
-    return Succeshandler(200, res, { user });
+    return Succeshandler(200, res, user);
+  } catch (e) {
+    return Errorhandler(500, res, e.message);
+  }
+};
+
+exports.CheckIfUserNameExists = async (req, res) => {
+  try {
+    const {
+      body: { Username },
+    } = req;
+    // const userNameExistBefore = await User.findOne({ Username });
+    const userNameExistBefore = await User.findOne({
+      Username: { $regex: new RegExp(Username, "i") },
+    });
+    if (userNameExistBefore) {
+      return Errorhandler(400, res, `UserName Already Exists!`);
+    } else {
+      return Succeshandler(200, res, undefined);
+    }
   } catch (e) {
     return Errorhandler(500, res, e.message);
   }
