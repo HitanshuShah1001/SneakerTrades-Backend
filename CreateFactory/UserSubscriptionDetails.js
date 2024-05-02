@@ -12,7 +12,7 @@ exports.SaveSubscriptionDetails = async (req, res) => {
     const [userToBeSwitchedToPremium, createUserSubscriptionRecord] =
       await Promise.all([
         User.findById({ _id }),
-        UserSubscriptionDetails.create({ ...body }),
+        UserSubscriptionDetails.create({ ...body, UserId: _id }),
       ]);
     userToBeSwitchedToPremium.IsPremium = true;
     await userToBeSwitchedToPremium.save();
