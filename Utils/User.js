@@ -16,6 +16,7 @@ exports.createToken = async (user, statusCode, res) => {
       },
     });
   } catch (e) {
+    console.log(e, "error in login");
     Errorhandler(400, res, e);
   }
 };
