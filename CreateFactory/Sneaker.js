@@ -7,14 +7,12 @@ exports.UploadSneaker = async (req, res) => {
   try {
     const {
       files,
-      protocol,
       user: { _id: userId, Name, Phone, Email },
       body: { Type, ...sneakerDetails },
     } = req;
-
     const userToSaveDetailsFor = await User.findById(userId);
     if (
-      userToSaveDetailsFor.TotalSneakersUploaded >= 3 &&
+      userToSaveDetailsFor.TotalSneakersUploaded >= 100 &&
       !userToSaveDetailsFor.IsPremium
     ) {
       return Errorhandler(
@@ -23,9 +21,7 @@ exports.UploadSneaker = async (req, res) => {
         `Upgrade to premium to upload more sneakers!`
       );
     }
-    const Photos = files.map(
-      (file) => `${protocol}://${req.get("host")}/${file.path}`
-    );
+    const Photos = files.map((file) => file.location);
     const SneakerRecord = await Sneaker.create({
       ...sneakerDetails,
       Photos,

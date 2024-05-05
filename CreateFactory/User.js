@@ -6,10 +6,9 @@ require("dotenv").config();
 
 exports.SignUp = async (req, res) => {
   try {
+    console.log(req.file);
     const image = {
-      ProfilePhoto: req.file
-        ? `${req.protocol}://${req.get("host")}/${req.file.path}`
-        : ``,
+      ProfilePhoto: req.file ? req.file.location : ``,
     };
     const data = { ...req.body, ...image };
     const user = await User.create(data);

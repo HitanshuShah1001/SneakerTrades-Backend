@@ -6,9 +6,7 @@ exports.UpdateUser = async (req, res) => {
   try {
     const { _id: id, ProfilePhoto } = req.user || {};
     const image = {
-      ProfilePhoto: req.file
-        ? `${req.protocol}://${req.get("host")}/${req.file.path}`
-        : ProfilePhoto,
+      ProfilePhoto: req.file ? req.file.location : ProfilePhoto,
     };
     const data = { ...req.body, ...image };
     const user = await User.findByIdAndUpdate(id, data, {

@@ -8,10 +8,8 @@ exports.CreateRequest = async (req, res) => {
     const {
       user: { _id, Name, Email, Phone },
       body,
-      protocol,
       file,
     } = req;
-    console.log(file);
 
     const userThatUploaded = await User.findById({ _id });
     if (
@@ -25,7 +23,7 @@ exports.CreateRequest = async (req, res) => {
       );
     }
     const image = {
-      Photo: file ? `${protocol}://${req.get("host")}/${file.path}` : ``,
+      Photo: file ? file.location : ``,
     };
 
     const dataToSave = {

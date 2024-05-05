@@ -5,10 +5,10 @@ require("dotenv").config();
 
 const s3 = new S3Client({
   credentials: {
-    accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID, // store it in .env file to keep it safe
-    secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
+    accessKeyId: "AKIA47CRW6GSP3RAGDUM",
+    secretAccessKey: "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",
   },
-  region: process.env.S3_BUCKET_REGION, // this is the region that you select in AWS account
+  region: "eu-north-1",
 });
 
 const s3Storage = (bucketName) =>
