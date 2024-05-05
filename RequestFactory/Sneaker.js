@@ -11,10 +11,11 @@ exports.CreateRequest = async (req, res) => {
       protocol,
       file,
     } = req;
+    console.log(file);
 
     const userThatUploaded = await User.findById({ _id });
     if (
-      userThatUploaded.TotalRequestsDone >= 3 &&
+      userThatUploaded.TotalRequestsDone >= 10000 &&
       !userThatUploaded.IsPremium
     ) {
       return Errorhandler(

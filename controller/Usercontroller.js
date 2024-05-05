@@ -1,34 +1,25 @@
 const multer = require("multer");
-const {
-  UPLOADREQUESTSDIRECTORY,
-  SNEAKERUPLOADSDIRECTORY,
-  USERPROFILEPHOTODIRECTORY,
-} = require("../Constants/constants");
+const s3Storage = require("../Utils/S3ClientIntiate");
 
-const requestPhotoStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, UPLOADREQUESTSDIRECTORY);
+// our middleware
+const uploadRequestImage = multer({
+  storage: s3Storage("sneakertradesrequestsphotos"),
+  limits: {
+    fileSize: 1024 * 1024 * 5, // 2mb file size
   },
 });
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, SNEAKERUPLOADSDIRECTORY);
+const uploadProfileImage = multer({
+  storage: s3Storage("sneakertradesrequestsphotos"),
+  limits: {
+    fileSize: 1024 * 1024 * 5, // 2mb file size
   },
 });
 
-const profilePhotoStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, USERPROFILEPHOTODIRECTORY);
-  },
+const uploadSneakerImage = multer({
+  storage: s3Storage("sneakertradesrequestsphotos"),
 });
 
-const uploadProfilePhoto = multer({ storage: profilePhotoStorage });
-const upload = multer({ storage: storage });
-const uploadRequest = multer({
-  storage: requestPhotoStorage,
-});
-
-exports.UserPhoto = uploadProfilePhoto.single("ProfilePhoto");
-exports.SneakerPhoto = uploadRequest.single("Photo");
-exports.SneakerPhotos = upload.array("Photos");
+exports.UserPhoto = uploadProfileImage.single("ProfilePhoto");
+exports.SneakerPhoto = uploadRequestImage.single("Photo");
+exports.SneakerPhotos = uploadSneakerImage.array("Photos");
