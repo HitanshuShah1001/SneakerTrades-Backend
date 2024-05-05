@@ -8,7 +8,7 @@ const s3 = new S3Client({
     accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
   },
-  region: "eu-north-1",
+  region: process.env.S3_BUCKET_REGION,
 });
 
 const s3Storage = (bucketName) =>
