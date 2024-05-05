@@ -7,6 +7,7 @@ const SneakerRouter = require("./routes/Sneaker");
 const SneakerRequestRouter = require("./routes/SneakerRequest");
 const UserSubscriptionRouter = require("./routes/UserSubscription");
 require("dotenv").config();
+console.log(process.env.MONGO_URL);
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
