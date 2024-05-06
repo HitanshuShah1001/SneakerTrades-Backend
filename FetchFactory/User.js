@@ -61,17 +61,30 @@ exports.GetUserById = async (req, res) => {
   }
 };
 
-exports.CheckIfUserNameExists = async (req, res) => {
+exports.CheckIfUserNameEmailPhoneExists = async (req, res) => {
   try {
     const {
-      body: { Username },
+      body: { Username, Phone, Email },
     } = req;
     // const userNameExistBefore = await User.findOne({ Username });
-    const userNameExistBefore = await User.findOne({
-      Username: { $regex: new RegExp(Username, "i") },
-    });
+    const [userNameExistBefore, phoneExistBefore, emailExistBefore] =
+      await Promise.all([
+        User.findOne({
+          Username: { $regex: new RegExp(Username, "i") },
+        }),
+        User.findOne({
+          Phone: { $regex: new RegExp(Phone, "i") },
+        }),
+        User.findOne({
+          Email: { $regex: new RegExp(Email, "i") },
+        }),
+      ]);
     if (userNameExistBefore) {
       return Errorhandler(400, res, `UserName Already Exists!`);
+    } else if (phoneExistBefore) {
+      return Errorhandler(400, res, `Phone Already Exists!`);
+    } else if (emailExistBefore) {
+      return Errorhandler(400, res, `Email already Exists!`);
     } else {
       return Succeshandler(200, res, undefined);
     }
