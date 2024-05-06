@@ -11,6 +11,7 @@ exports.GetAllUsers = async (req, res) => {
       count: users.length,
     });
   } catch (e) {
+    console.log(e, "error occured");
     return Errorhandler(500, res, e.message);
   }
 };
@@ -75,6 +76,7 @@ exports.CheckIfUserNameExists = async (req, res) => {
       return Succeshandler(200, res, undefined);
     }
   } catch (e) {
+    console.log(e, "error occured");
     return Errorhandler(500, res, e.message);
   }
 };

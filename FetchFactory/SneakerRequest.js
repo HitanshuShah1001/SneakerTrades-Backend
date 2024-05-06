@@ -8,15 +8,12 @@ exports.GetAllSneakerRequestsUploadedByUser = async (req, res) => {
       user: { _id },
     } = req;
     const records = await SneakerRequest.find({ RequestedBy: _id });
-
-    if (records.length == 0) {
-      return Errorhandler(404, res, `No records found!`);
-    }
     return Succeshandler(200, res, {
       data: records,
       count: records.length,
     });
   } catch (e) {
+    console.log(e, "error occured");
     return Errorhandler(500, res, e.message);
   }
 };
@@ -62,6 +59,7 @@ exports.GetSneakerRequests = async (req, res) => {
       count: results.length,
     });
   } catch (error) {
+    console.log(e, "error occured");
     return Errorhandler(500, res, error.message);
   }
 };

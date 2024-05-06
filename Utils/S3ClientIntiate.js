@@ -5,16 +5,16 @@ require("dotenv").config();
 
 const s3 = new S3Client({
   credentials: {
-    accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID, // store it in .env file to keep it safe
+    accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
   },
-  region: process.env.S3_BUCKET_REGION, // this is the region that you select in AWS account
+  region: process.env.S3_BUCKET_REGION,
 });
 
 const s3Storage = (bucketName) =>
   multerS3({
     s3: s3, // s3 instance
-    bucket: bucketName, // change it as per your project requirement // storage access type
+    bucket: bucketName,
     metadata: (req, file, cb) => {
       cb(null, { fieldname: file.fieldname });
     },
