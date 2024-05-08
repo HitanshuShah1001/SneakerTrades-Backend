@@ -12,7 +12,7 @@ exports.UploadSneaker = async (req, res) => {
     } = req;
     const userToSaveDetailsFor = await User.findById(userId);
     if (
-      userToSaveDetailsFor.TotalSneakersUploaded >= 100 &&
+      userToSaveDetailsFor.TotalSneakersUploaded >= 3 &&
       !userToSaveDetailsFor.IsPremium
     ) {
       return Errorhandler(
