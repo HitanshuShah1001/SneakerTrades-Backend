@@ -4,6 +4,7 @@ const User = require("../models/User");
 const UserUtil = require("../Utils/User");
 const Errorhandler = require("../Errorhandler/Errorhandler");
 const sendEmail = require("../Utils/SendEmail");
+const GenerateOTP = require("../Utils/GenerateOtp");
 require("dotenv").config();
 
 exports.Protect = async (req, res, next) => {
@@ -47,7 +48,8 @@ exports.emailService = async (req, res, next) => {
   const {
     body: { Email },
   } = req;
-  await sendEmail({ Email, otp: 12121 });
+  const otp = GenerateOTP();
+  await sendEmail({ Email, otp });
   res.status(200).json({
     status: "Success",
   });
