@@ -9,7 +9,7 @@ const {
   CheckIfUserNameEmailPhoneExists,
 } = require("../FetchFactory/User");
 const { DeleteUser } = require("../DeleteFactory/User");
-const { UpdateUser } = require("../UpdateFactory/User");
+const { UpdateUser, ResetPassword } = require("../UpdateFactory/User");
 
 router.route("/signUp").post(UserController.UserPhoto, CreateUser.SignUp);
 
@@ -23,5 +23,6 @@ router.patch(
   UserController.UserPhoto,
   UpdateUser
 );
+router.patch("/resetpassword", ResetPassword);
 router.route("/sendemail").post(AuthController.emailService);
 module.exports = router;

@@ -5,6 +5,7 @@ const UserUtil = require("../Utils/User");
 const Errorhandler = require("../Errorhandler/Errorhandler");
 const sendEmail = require("../Utils/SendEmail");
 const GenerateOTP = require("../Utils/GenerateOtp");
+const Succeshandler = require("../Succeshandler/Succeshandler");
 require("dotenv").config();
 
 exports.Protect = async (req, res, next) => {
@@ -37,7 +38,9 @@ exports.Protect = async (req, res, next) => {
 
 exports.Login = async (req, res) => {
   let { Password, Email } = req.body;
-  const user = await User.findOne({ Email }).select("+Password");
+  const user = await User.findOne({
+    Email: { $regex: new RegExp("^" + Email + "$", "i") },
+  }).select("+Password");
   if (!user || !(await user.correctPassword(Password, user.Password))) {
     return Errorhandler(401, res, "Incorrect Email or Password");
   }
@@ -50,7 +53,5 @@ exports.emailService = async (req, res, next) => {
   } = req;
   const otp = GenerateOTP();
   await sendEmail({ Email, otp });
-  res.status(200).json({
-    status: "Success",
-  });
+  return Succeshandler(201, res, { otp }, "OTP sent sucesfully");
 };
