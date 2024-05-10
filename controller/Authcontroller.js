@@ -3,6 +3,9 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const UserUtil = require("../Utils/User");
 const Errorhandler = require("../Errorhandler/Errorhandler");
+const sendEmail = require("../Utils/SendEmail");
+const GenerateOTP = require("../Utils/GenerateOtp");
+const Succeshandler = require("../Succeshandler/Succeshandler");
 require("dotenv").config();
 
 exports.Protect = async (req, res, next) => {
@@ -34,10 +37,21 @@ exports.Protect = async (req, res, next) => {
 };
 
 exports.Login = async (req, res) => {
-  let { Phone } = req.body;
-  const user = await User.findOne({ Phone });
-  if (!user) {
-    return Errorhandler(401, res, "No User found");
+  let { Password, Email } = req.body;
+  const user = await User.findOne({
+    Email: { $regex: new RegExp("^" + Email + "$", "i") },
+  }).select("+Password");
+  if (!user || !(await user.correctPassword(Password, user.Password))) {
+    return Errorhandler(401, res, "Incorrect Email or Password");
   }
   UserUtil.createToken(user, 201, res);
+};
+
+exports.emailService = async (req, res, next) => {
+  const {
+    body: { Email },
+  } = req;
+  const otp = GenerateOTP();
+  await sendEmail({ Email, otp });
+  return Succeshandler(201, res, { otp }, "OTP sent sucesfully");
 };
