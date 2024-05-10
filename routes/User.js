@@ -10,6 +10,7 @@ const {
 } = require("../FetchFactory/User");
 const { DeleteUser } = require("../DeleteFactory/User");
 const { UpdateUser, ResetPassword } = require("../UpdateFactory/User");
+const { CreateQuery } = require("../CreateFactory/Query");
 
 router.route("/signUp").post(UserController.UserPhoto, CreateUser.SignUp);
 
@@ -23,6 +24,7 @@ router.patch(
   UserController.UserPhoto,
   UpdateUser
 );
-router.patch("/resetpassword", ResetPassword);
+router.post("/resetpassword", ResetPassword);
 router.route("/sendemail").post(AuthController.emailService);
+router.post("/raisequery", AuthController.Protect, CreateQuery);
 module.exports = router;
