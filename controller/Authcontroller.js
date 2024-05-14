@@ -6,6 +6,10 @@ const Errorhandler = require("../Errorhandler/Errorhandler");
 const sendEmail = require("../Utils/SendEmail");
 const GenerateOTP = require("../Utils/GenerateOtp");
 const Succeshandler = require("../Succeshandler/Succeshandler");
+const {
+  INC_EMAIL_PASSWORD,
+  OTP_SENT_SUCCESFULLY,
+} = require("../Constants/constants");
 require("dotenv").config();
 
 exports.Protect = async (req, res, next) => {
@@ -42,7 +46,7 @@ exports.Login = async (req, res) => {
     Email: { $regex: new RegExp("^" + Email + "$", "i") },
   }).select("+Password");
   if (!user || !(await user.correctPassword(Password, user.Password))) {
-    return Errorhandler(401, res, "Incorrect Email or Password");
+    return Errorhandler(401, res, INC_EMAIL_PASSWORD);
   }
   UserUtil.createToken(user, 201, res);
 };
@@ -53,5 +57,5 @@ exports.emailService = async (req, res, next) => {
   } = req;
   const otp = GenerateOTP();
   await sendEmail({ Email, otp });
-  return Succeshandler(201, res, { otp }, "OTP sent sucesfully");
+  return Succeshandler(201, res, { otp }, OTP_SENT_SUCCESFULLY);
 };

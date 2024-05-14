@@ -11,16 +11,6 @@ exports.UploadSneaker = async (req, res) => {
       body: { Type, ...sneakerDetails },
     } = req;
     const userToSaveDetailsFor = await User.findById(userId);
-    if (
-      userToSaveDetailsFor.TotalSneakersUploaded >= 3 &&
-      !userToSaveDetailsFor.IsPremium
-    ) {
-      return Errorhandler(
-        403,
-        res,
-        `Upgrade to premium to upload more sneakers!`
-      );
-    }
     const Photos = files.map((file) => file.location);
     const SneakerRecord = await Sneaker.create({
       ...sneakerDetails,

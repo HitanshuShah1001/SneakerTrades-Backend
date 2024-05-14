@@ -12,16 +12,6 @@ exports.CreateRequest = async (req, res) => {
     } = req;
 
     const userThatUploaded = await User.findById({ _id });
-    if (
-      userThatUploaded.TotalRequestsDone >= 3 &&
-      !userThatUploaded.IsPremium
-    ) {
-      return Errorhandler(
-        403,
-        res,
-        `Upgrade to premium to upload create more requests!`
-      );
-    }
     const image = {
       Photo: file ? file.location : ``,
     };
