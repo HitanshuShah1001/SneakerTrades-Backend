@@ -13,22 +13,12 @@ const SneakerSchema = new mongoose.Schema(
     Size: { type: Number, required: true },
     To_Show: { type: Boolean, default: true },
     Owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-
     OwnerDetails: {
       type: Object,
       required: true,
     },
     Price: {
       type: Number,
-    },
-    ChargePerDay: {
-      type: Number,
-    },
-    OverdueCharge: {
-      type: Number,
-      required: function () {
-        return ["lend", "both"].includes(this.Type);
-      },
     },
   },
   { timestamps: true }

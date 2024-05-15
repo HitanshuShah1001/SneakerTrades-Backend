@@ -14,7 +14,6 @@ exports.GetAllSneakersUploadedByUser = async (req, res) => {
       count: records.length,
     });
   } catch (e) {
-    console.log(e, "error occured");
     return Errorhandler(500, res, e.message);
   }
 };
@@ -58,7 +57,6 @@ exports.GetSneakers = async (req, res) => {
       count: results.length,
     });
   } catch (error) {
-    console.log(e, "error occured");
     return Errorhandler(500, res, error.message);
   }
 };

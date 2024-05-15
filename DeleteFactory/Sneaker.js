@@ -1,3 +1,4 @@
+const { SN_NOT_FOUND, STATUS_SUCCESS } = require("../Constants/constants");
 const Errorhandler = require("../Errorhandler/Errorhandler");
 const Sneaker = require("../models/Sneaker");
 const User = require("../models/User");
@@ -13,7 +14,7 @@ exports.DeleteSneaker = async (req, res) => {
     ]);
 
     if (!deletedSneaker) {
-      return Errorhandler(404, res, `Sneaker not found`);
+      return Errorhandler(404, res, SN_NOT_FOUND);
     }
 
     const { UploadedSneakers } = userToUpdate;
@@ -23,10 +24,10 @@ exports.DeleteSneaker = async (req, res) => {
       UploadedSneakers.splice(indexOfSneakerToRemove, 1);
       await userToUpdate.save();
       return res.json({
-        status: `Success`,
+        status: STATUS_SUCCESS,
       });
     } else {
-      Errorhandler(404, res, `Sneaker not found in user's uploaded sneakers`);
+      Errorhandler(404, res, SN_NOT_FOUND);
     }
   } catch (error) {
     Errorhandler(400, res, error.message);

@@ -1,3 +1,7 @@
+const {
+  SNEAKER_UPLOADED,
+  SOME_ERROR_OCCURED,
+} = require("../Constants/constants");
 const Errorhandler = require("../Errorhandler/Errorhandler");
 const SneakerRequest = require("../models/SneakerRequest");
 const User = require("../models/User");
@@ -26,8 +30,8 @@ exports.CreateRequest = async (req, res) => {
     userThatUploaded.SneakerRequests.push(sneakerRequest);
     userThatUploaded.TotalRequestsDone += 1;
     await userThatUploaded.save();
-    Successhandler(201, res, sneakerRequest, `Sneaker Uploaded!`);
+    Successhandler(201, res, sneakerRequest, SNEAKER_UPLOADED);
   } catch (e) {
-    return console.log(e.message);
+    return Errorhandler(500, res, SOME_ERROR_OCCURED);
   }
 };
