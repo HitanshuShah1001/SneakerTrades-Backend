@@ -1,6 +1,8 @@
+const { STATUS_SUCCESS } = require("../Constants/constants");
+
 module.exports = (statusCode, res, customData, message) => {
   const responseObj = {
-    status: "Success",
+    status: STATUS_SUCCESS,
   };
 
   if (customData !== undefined) {

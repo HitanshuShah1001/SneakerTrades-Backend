@@ -8,7 +8,7 @@ const {
   GetSneakerRequests,
 } = require("../FetchFactory/SneakerRequest");
 const { DeleteSneakerRequest } = require("../DeleteFactory/SneakerRequest");
-require("../UnlockFactory/SneakerRequest");
+const { PaginateQuery } = require("../Utils/Pagination");
 
 router.post(
   "/createrequest",
@@ -17,7 +17,12 @@ router.post(
   CreateRequest
 );
 
-router.post("/requests/", AuthController.Protect, GetSneakerRequests);
+router.post(
+  "/requests/",
+  AuthController.Protect,
+  PaginateQuery,
+  GetSneakerRequests
+);
 router.delete("/delete/:id", AuthController.Protect, DeleteSneakerRequest);
 router.get(
   "/requestscreated/",
