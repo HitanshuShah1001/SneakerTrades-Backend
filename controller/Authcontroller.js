@@ -9,6 +9,7 @@ const Succeshandler = require("../Succeshandler/Succeshandler");
 const {
   INC_EMAIL_PASSWORD,
   OTP_SENT_SUCCESFULLY,
+  NO_USER_FOUND,
 } = require("../Constants/constants");
 require("dotenv").config();
 
@@ -55,6 +56,12 @@ exports.emailService = async (req, res, next) => {
   const {
     body: { Email },
   } = req;
+  const user = await User.findOne({
+    Email: { $regex: new RegExp("^" + Email + "$", "i") },
+  });
+  if (!user) {
+    return Errorhandler(404, res, NO_USER_FOUND);
+  }
   const otp = GenerateOTP();
   await sendEmail({ Email, otp });
   return Succeshandler(201, res, { otp }, OTP_SENT_SUCCESFULLY);
