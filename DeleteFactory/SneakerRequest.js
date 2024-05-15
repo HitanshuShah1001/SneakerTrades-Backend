@@ -1,5 +1,5 @@
+const { REQ_NOT_FOUND, STATUS_SUCCESS } = require("../Constants/constants");
 const Errorhandler = require("../Errorhandler/Errorhandler");
-const Successhandler = require("../Succeshandler/Succeshandler");
 const SneakerRequest = require("../models/SneakerRequest");
 const User = require("../models/User");
 
@@ -13,7 +13,7 @@ exports.DeleteSneakerRequest = async (req, res) => {
     ]);
 
     if (!deletedSneakerRequest) {
-      return Errorhandler(404, res, `Request not found`);
+      return Errorhandler(404, res, REQ_NOT_FOUND);
     }
 
     const { SneakerRequests } = userToUpdate;
@@ -23,17 +23,12 @@ exports.DeleteSneakerRequest = async (req, res) => {
       SneakerRequests.splice(indexOfSneakerToRemove, 1);
       await userToUpdate.save();
     } else {
-      return Errorhandler(
-        404,
-        res,
-        `Request not found in user's uploaded sneakers`
-      );
+      return Errorhandler(404, res, REQ_NOT_FOUND);
     }
     return res.json({
-      status: `Success`,
+      status: STATUS_SUCCESS,
     });
   } catch (error) {
-    console.log(error, "error");
     return Errorhandler(400, res, error.message);
   }
 };

@@ -13,16 +13,16 @@ exports.GetAllSneakerRequestsUploadedByUser = async (req, res) => {
       count: records.length,
     });
   } catch (e) {
-    console.log(e, "error occured");
     return Errorhandler(500, res, e.message);
   }
 };
 
 exports.GetSneakerRequests = async (req, res) => {
   try {
-    const { searchQuery, filters } = req.body;
     const {
       user: { _id: id },
+      body: { searchQuery, filters },
+      pagination: { limit, skip },
     } = req;
     const filter = {};
 
@@ -53,13 +53,14 @@ exports.GetSneakerRequests = async (req, res) => {
 
     const combinedQuery = { ...query, ...filter, RequestedBy: { $ne: id } };
 
-    const results = await SneakerRequest.find(combinedQuery);
+    const results = await SneakerRequest.find(combinedQuery)
+      .limit(limit)
+      .skip(skip);
     return Succeshandler(200, res, {
       data: results,
       count: results.length,
     });
   } catch (error) {
-    console.log(e, "error occured");
     return Errorhandler(500, res, error.message);
   }
 };

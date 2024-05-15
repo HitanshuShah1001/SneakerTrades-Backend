@@ -1,3 +1,10 @@
+const {
+  STATUS_SUCCESS,
+  NO_USER_FOUND,
+  USERNAME_ALREADY_EXISTS,
+  PHONE_ALREADY_EXISTS,
+  EMAIL_ALREADY_EXISTS,
+} = require("../Constants/constants");
 const Errorhandler = require("../Errorhandler/Errorhandler");
 const Succeshandler = require("../Succeshandler/Succeshandler");
 const User = require("../models/User");
@@ -6,12 +13,11 @@ exports.GetAllUsers = async (req, res) => {
   try {
     const users = await User.find({});
     return res.status(200).json({
-      status: `Success`,
+      status: STATUS_SUCCESS,
       users,
       count: users.length,
     });
   } catch (e) {
-    console.log(e, "error occured");
     return Errorhandler(500, res, e.message);
   }
 };
@@ -22,8 +28,8 @@ exports.GetIndividualUser = async (req, res) => {
     const user = await User.find({ Phone });
     const userobj =
       user.length > 0
-        ? { status: `Success`, user }
-        : { status: `Success`, user: null, message: `User not found!` };
+        ? { status: STATUS_SUCCESS, user }
+        : { status: STATUS_SUCCESS, user: null, message: NO_USER_FOUND };
     return res.status(200).json({
       status: `Success`,
       ...userobj,
@@ -38,8 +44,8 @@ exports.GetIndividualUserByEmail = async (req, res) => {
     const user = await User.find({ Email });
     const userobj =
       user.length > 0
-        ? { status: `Success`, user }
-        : { status: `Success`, user: null, message: `User not found!` };
+        ? { status: STATUS_SUCCESS, user }
+        : { status: STATUS_SUCCESS, user: null, message: NO_USER_FOUND };
 
     return Succeshandler(200, res, {
       user: userobj,
@@ -80,16 +86,15 @@ exports.CheckIfUserNameEmailPhoneExists = async (req, res) => {
         }),
       ]);
     if (userNameExistBefore) {
-      return Errorhandler(400, res, `UserName Already Exists!`);
+      return Errorhandler(400, res, USERNAME_ALREADY_EXISTS);
     } else if (phoneExistBefore) {
-      return Errorhandler(400, res, `Phone Already Exists!`);
+      return Errorhandler(400, res, PHONE_ALREADY_EXISTS);
     } else if (emailExistBefore) {
-      return Errorhandler(400, res, `Email already Exists!`);
+      return Errorhandler(400, res, EMAIL_ALREADY_EXISTS);
     } else {
       return Succeshandler(200, res, undefined);
     }
   } catch (e) {
-    console.log(e, "error occured");
     return Errorhandler(500, res, e.message);
   }
 };
