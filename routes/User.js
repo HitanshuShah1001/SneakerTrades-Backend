@@ -28,6 +28,6 @@ router.post("/resetpassword", ResetPassword);
 router
   .route("/sendemailforresetpassword")
   .post(AuthController.emailServiceForResetPassword);
-route.route("/sendemailforsignup", AuthController.emailServiceForSignUp);
+router.route("/sendemailforsignup", AuthController.emailServiceForSignUp);
 router.post("/raisequery", AuthController.Protect, CreateQuery);
 module.exports = router;
