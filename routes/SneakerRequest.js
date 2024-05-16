@@ -17,12 +17,7 @@ router.post(
   CreateRequest
 );
 
-router.post(
-  "/requests/",
-  AuthController.Protect,
-  PaginateQuery,
-  GetSneakerRequests
-);
+router.post("/requests/", PaginateQuery, GetSneakerRequests);
 router.delete("/delete/:id", AuthController.Protect, DeleteSneakerRequest);
 router.get(
   "/requestscreated/",

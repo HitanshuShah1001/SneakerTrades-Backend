@@ -22,12 +22,7 @@ router.get(
   GetAllSneakersUploadedByUser
 );
 
-router.post(
-  "/forpurchaseandborrow",
-  AuthController.Protect,
-  PaginateQuery,
-  GetSneakers
-);
+router.post("/forpurchaseandborrow", PaginateQuery, GetSneakers);
 
 router.delete("/delete/:id", AuthController.Protect, DeleteSneaker);
 
