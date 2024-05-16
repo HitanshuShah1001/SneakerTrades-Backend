@@ -52,7 +52,7 @@ exports.Login = async (req, res) => {
   UserUtil.createToken(user, 201, res);
 };
 
-exports.emailService = async (req, res, next) => {
+exports.emailServiceForResetPassword = async (req, res) => {
   const {
     body: { Email },
   } = req;
@@ -62,6 +62,18 @@ exports.emailService = async (req, res, next) => {
   if (!user) {
     return Errorhandler(404, res, NO_USER_FOUND);
   }
+  const otp = GenerateOTP();
+  await sendEmail({ Email, otp });
+  return Succeshandler(201, res, { otp }, OTP_SENT_SUCCESFULLY);
+};
+
+exports.emailServiceForSignUp = async (req, res) => {
+  const {
+    body: { Email },
+  } = req;
+  const user = await User.findOne({
+    Email: { $regex: new RegExp("^" + Email + "$", "i") },
+  });
   const otp = GenerateOTP();
   await sendEmail({ Email, otp });
   return Succeshandler(201, res, { otp }, OTP_SENT_SUCCESFULLY);

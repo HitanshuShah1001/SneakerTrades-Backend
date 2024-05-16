@@ -25,6 +25,9 @@ router.patch(
   UpdateUser
 );
 router.post("/resetpassword", ResetPassword);
-router.route("/sendemail").post(AuthController.emailService);
+router
+  .route("/sendemailforresetpassword")
+  .post(AuthController.emailServiceForResetPassword);
+route.route("/sendemailforsignup", AuthController.emailServiceForSignUp);
 router.post("/raisequery", AuthController.Protect, CreateQuery);
 module.exports = router;
