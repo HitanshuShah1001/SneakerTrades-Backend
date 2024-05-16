@@ -20,7 +20,6 @@ exports.GetAllSneakerRequestsUploadedByUser = async (req, res) => {
 exports.GetSneakerRequests = async (req, res) => {
   try {
     const {
-      user: { _id: id },
       body: { searchQuery, filters },
       pagination: { limit, skip },
     } = req;
@@ -51,7 +50,7 @@ exports.GetSneakerRequests = async (req, res) => {
       };
     }
 
-    const combinedQuery = { ...query, ...filter, RequestedBy: { $ne: id } };
+    const combinedQuery = { ...query, ...filter };
 
     const results = await SneakerRequest.find(combinedQuery)
       .limit(limit)

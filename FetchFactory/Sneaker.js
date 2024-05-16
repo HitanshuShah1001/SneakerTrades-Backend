@@ -21,7 +21,6 @@ exports.GetAllSneakersUploadedByUser = async (req, res) => {
 exports.GetSneakers = async (req, res) => {
   try {
     const {
-      user: { _id: id },
       pagination: { limit, skip },
       body: { searchQuery, filters },
     } = req;
@@ -51,7 +50,7 @@ exports.GetSneakers = async (req, res) => {
         ],
       };
     }
-    const combinedQuery = { ...query, ...filter, Owner: { $ne: id } };
+    const combinedQuery = { ...query, ...filter };
     const results = await Sneaker.find(combinedQuery).limit(limit).skip(skip);
     return Succeshandler(200, res, {
       data: results,
